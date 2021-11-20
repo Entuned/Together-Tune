@@ -1,5 +1,6 @@
 // TODO
 import React from 'react';
+import New from './New.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Entuned-test-webpack</h1>
+        <New/>
       </div>
     );
   }
