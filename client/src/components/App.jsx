@@ -12,7 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Entuned</h1>
+        <h1>Entuned-test</h1>
       </div>
     );
   }
