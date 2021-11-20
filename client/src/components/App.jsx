@@ -1,5 +1,5 @@
 import React from 'react';
-import { loginUrl } from '/Users/chhotisherpa/Together-Tune-1/config/auth.js';
+import { loginUrl } from '/config/auth.js';
 import Login from './Login.jsx';
 class App extends React.Component {
   constructor(props) {
