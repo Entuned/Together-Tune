@@ -45,7 +45,7 @@ app.use(passport.session());
 app.get(
   '/auth/spotify',
   passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private']
+    scope: ['user-read-email', 'ae']
   })
 );
 
