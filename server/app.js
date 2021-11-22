@@ -1,14 +1,21 @@
-/* eslint-disable camelcase */
 const path = require('path');
 const express = require('express');
+const app = express();
+const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const session = require('express-session');
 const { clientID, clientSecret } = require('../config/auth.js');
 
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
-const app = express();
+
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.status(401).send('Not Logged In');
+  }
+};
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -21,42 +28,49 @@ passport.deserializeUser(function (obj, done) {
 passport.use(
   new SpotifyStrategy(
     {
-      // eslint-disable-next-line camelcase
       clientID: clientID,
       clientSecret: clientSecret,
-      callbackURL: 'http://localhost:3000/auth/spotify/callback'
+      callbackURL: '/auth/spotify/callback'
     },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-      User.findOrCreate({ spotifyId: profile.id }, function(err, user) {
-        return done(err, user);
-      });
+    (accessToken, refreshToken, profile, done) => {
+      return done(null, profile);
     }
   )
 );
 
 app.use(bodyParser.json());
 app.use(express.static(CLIENT_PATH));
-app.use(
-  session({secret: clientSecret, resave: true, saveUninitialized: true})
-);
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get(
-  '/auth/spotify',
-  passport.authenticate('spotify', {
-    scope: ['user-read-email', 'ae']
-  })
-);
 
-app.get(
-  '/auth/spotify/callback',
-  passport.authenticate('spotify', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
+app.get('/', isLoggedIn, (req, res)=>{
+  res.send(`Hey ${req.user}`);
+});
+app.get('/auth/error', (req, res) => res.send('Unknown Error'));
+
+app.get('/auth/spotify',
+  passport.authenticate('spotify', {
+    scope: ['user-read-email', 'user-read-private'],
+  }));
+
+app.get('/auth/spotify/callback', passport.authenticate('spotify', { failureRedirect: '/auth/error' }),
+  (req, res) => {
     res.redirect('/');
-  }
-);
+  });
+
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 
 module.exports = {
   app,

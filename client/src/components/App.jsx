@@ -1,5 +1,4 @@
 import React from 'react';
-import { loginUrl } from '/config/auth.js';
 import Login from './Login.jsx';
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +12,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Entuned-test-webpack</h1>
-        <Login loginUrl={loginUrl}/>
+        <Login />
       </div>
     );
   }
