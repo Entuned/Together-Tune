@@ -15,7 +15,7 @@ class App extends React.Component {
     this.postMessages = this.postMessages.bind(this);
   }
 
-  getMesssages(message) {
+  getMesssages() {
     axios.get('http://localhost:3000/messages')
       .then((data) => {
         this.setState({
@@ -26,9 +26,14 @@ class App extends React.Component {
 
   postMessages(message) {
     console.log(message);
-    // axios.post('http://localhost:3000/messages', message)
-    //   .then(()=> this.getMesssages())
-    //   .catch(err => console.log(err));
+    const newMessage = {
+      userName: 'testUser',
+      message: message.text
+    };
+    console.log(newMessage);
+    axios.post('http://localhost:3000/messages', newMessage)
+      .then(() => this.getMesssages())
+      .catch(err => console.log(err));
   }
   componentDidMount() {
     this.getMesssages();

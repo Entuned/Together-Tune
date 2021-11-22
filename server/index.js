@@ -30,7 +30,14 @@ app.post('/messages', (req, res) => {
     .catch(() => res.sendStatus(404));
 });
 
+// delete 
+app.delete('/messages:_id', (req, res) => {
+  const { _id } = req.params;
 
+  Users.deleteOne({ _id })
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(404));
+});
 
 
 
