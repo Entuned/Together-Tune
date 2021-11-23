@@ -12,11 +12,11 @@ class App extends React.Component {
     this.state = {
       messages: []
     };
-    this.getMesssages = this.getMesssages.bind(this);
+    this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
   }
 
-  getMesssages() {
+  getMessages() {
     axios.get('http://localhost:3000/messages')
       .then((data) => {
         this.setState({
@@ -33,18 +33,18 @@ class App extends React.Component {
     };
     console.log(newMessage);
     axios.post('http://localhost:3000/messages', newMessage)
-      .then(() => this.getMesssages())
+      .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
   componentDidMount() {
-    this.getMesssages();
+    this.getMessages();
   }
 
   render() {
     return (
       <div>
         <h1>Entuned-test-webpack</h1>
-        <ChatRoom messages={this.state.messages} getMesssages={this.getMesssages} postMessages={this.postMessages}/>
+        <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages}/>
       </div>
     );
   }
