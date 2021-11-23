@@ -13,13 +13,11 @@ class ChatRoom extends React.Component {
 
 
     this.handleClick = this.handleClick.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.messages = this.props.messages;
+
   }
 
   handleClick(e) {
     e.preventDefault();
-
     const {text} = this.state;
     if (!text) { return; }
     this.props.postMessages(this.state);
@@ -27,6 +25,14 @@ class ChatRoom extends React.Component {
       text: '',
     });
   }
+
+  componentDidMount() {
+    // this.refresh();
+    setInterval(() => {
+      this.props.getMessages();
+    }, 1000);
+  }
+
 
   render() {
     return (
