@@ -1,13 +1,9 @@
 import React from 'react';
 import SingleChat from './SingleChat.jsx';
-// import axios from 'axios';
-
-
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //state properties here
       text: '',
     };
 
@@ -27,7 +23,6 @@ class ChatRoom extends React.Component {
   }
 
   componentDidMount() {
-    // this.refresh();
     setInterval(() => {
       this.props.getMessages();
     }, 1000);

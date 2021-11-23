@@ -4,7 +4,6 @@ class SingleChat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //state properties here
     };
   }
   render() {

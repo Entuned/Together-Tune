@@ -2,8 +2,6 @@
 import React from 'react';
 import axios from 'axios';
 import ChatRoom from './ChatRoom.jsx';
-// import New from './New.jsx';
-
 
 class App extends React.Component {
   constructor(props) {
