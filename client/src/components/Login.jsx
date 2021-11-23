@@ -1,14 +1,9 @@
 import React from 'react';
 
-const Login = ({loginUrl}) => {
-  // console.log('login', loginUrl);
-  const spotify = () => {
-    window.open('http://localhost:3000/auth/spotify/callback', '_self');
-  };
-
+const Login = () => {
   return (
     <div>
-      <p onClick={spotify}>Login with spotify</p>
+      <a href ='/auth/spotify'>Login with spotify</a>
     </div>
   );
 };
