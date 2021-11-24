@@ -2,6 +2,8 @@
 import React from 'react';
 import axios from 'axios';
 import ChatRoom from './ChatRoom.jsx';
+import {Grid} from '@material-ui/core';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -42,7 +44,14 @@ class App extends React.Component {
     return (
       <div>
         <h1>Entuned-test-webpack</h1>
-        <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages}/>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
+          <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages}/>
+        </Grid>
       </div>
     );
   }

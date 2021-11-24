@@ -1,5 +1,8 @@
 import React from 'react';
 import SingleChat from './SingleChat.jsx';
+import { Button } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
@@ -33,16 +36,17 @@ class ChatRoom extends React.Component {
     return (
       <div>
         <div className='createMessage'>
-          <div className="formClass">New Message</div>
-          <form onSubmit={e => e.preventDefault()}>
-            <input
-              value={this.state.text}
-              onChange={(e) =>
-                this.setState({text: e.target.value })
-              }
-            />
-            <button onClick={(e) => this.handleClick(e)}>Submit Message</button>
-          </form>
+          <div className="formClass">
+            <form onSubmit={e => e.preventDefault()}>
+              <TextField variant="outlined" label="Message"
+                value={this.state.text}
+                onChange={(e) =>
+                  this.setState({text: e.target.value })
+                }
+              />
+              <Button startIcon={<ArrowUpwardIcon/>} variant="contained" color="secondary" onClick={(e) => this.handleClick(e)}>Send Message</Button>
+            </form>
+          </div>
         </div>
 
         <div className="singleChat">
