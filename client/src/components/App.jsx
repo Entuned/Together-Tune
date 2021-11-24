@@ -43,7 +43,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Entuned-test-webpack</h1>
+        <h1>Music-Player-Component</h1>
         <Grid
           container
           spacing={0}
