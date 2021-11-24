@@ -3,28 +3,56 @@ import SingleChat from './SingleChat.jsx';
 import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import axios from 'axios';
 class ChatRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
+      messages: [],
     };
     this.handleClick = this.handleClick.bind(this);
+    this.getMessages = this.getMessages.bind(this);
+    this.postMessages = this.postMessages.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
     const {text} = this.state;
     if (!text) { return; }
-    this.props.postMessages(this.state);
+    this.postMessages(this.state);
     this.setState({
       text: '',
     });
   }
 
+  getMessages() {
+    axios.get('http://localhost:3000/messages')
+      .then((data) => {
+        this.setState({
+          messages: data.data
+        });
+      });
+  }
+
+  postMessages(message) {
+    console.log(message);
+    const newMessage = {
+      userName: 'testUser',
+      message: message.text,
+      accessTokenKey: ''
+    };
+    console.log(newMessage);
+    axios.post('http://localhost:3000/messages', newMessage)
+      .then(() => this.getMessages())
+      .catch(err => console.log(err));
+  }
+
+
   componentDidMount() {
+    this.getMessages();
     setInterval(() => {
-      this.props.getMessages();
+      this.getMessages();
     }, 1000);
   }
 
@@ -47,7 +75,7 @@ class ChatRoom extends React.Component {
         </div>
 
         <div className="singleChat">
-          {this.props.messages.map((message) => {
+          {this.state.messages.map((message) => {
             return <SingleChat key={message._id} message={message.message} ID={this.props.ID}/>;
           })}
         </div>

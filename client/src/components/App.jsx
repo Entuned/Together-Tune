@@ -1,6 +1,5 @@
 
 import React from 'react';
-import axios from 'axios';
 import ChatRoom from './ChatRoom.jsx';
 import {Grid} from '@material-ui/core';
 import Login from './Login.jsx';
@@ -10,35 +9,10 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      messages: [],
       accessTokenKey: '',
       ID: this.generateUserID()
     };
-    this.getMessages = this.getMessages.bind(this);
-    this.postMessages = this.postMessages.bind(this);
     this.generateUserID = this.generateUserID.bind(this);
-  }
-
-  getMessages() {
-    axios.get('http://localhost:3000/messages')
-      .then((data) => {
-        this.setState({
-          messages: data.data
-        });
-      });
-  }
-
-  postMessages(message) {
-    console.log(message);
-    const newMessage = {
-      userName: 'testUser',
-      message: message.text,
-      accessTokenKey: ''
-    };
-    console.log(newMessage);
-    axios.post('http://localhost:3000/messages', newMessage)
-      .then(() => this.getMessages())
-      .catch(err => console.log(err));
   }
 
   generateUserID() {
@@ -46,10 +20,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getMessages();
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const accessToken = urlParams.get('access_token');
+    //not using this for now
     const refreshToken = urlParams.get('refresh_token');
     this.setState({
       accessTokenKey: accessToken
@@ -67,7 +41,7 @@ class App extends React.Component {
           direction="column"
           alignItems="center"
           style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
-          <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages} ID={this.state.ID}/>
+          <ChatRoom ID={this.state.ID}/>
         </Grid>
       </div>
     );
