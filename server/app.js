@@ -13,7 +13,7 @@ const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
 const client_id = process.env.clientID; // Your client id
 const client_secret = process.env.clientSecret; // Your secret
 const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
-
+// console
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -37,13 +37,13 @@ app.use(cors());
 app.use(cookieParser());
 
 app.get('/login', function(req, res) {
-  console.log(res, req);
+  // console.log(res, req);
   // res.send('Log in to Spotify');
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email playlist-read-private';
   res.redirect('https://accounts.spotify.com/authorize?' +
     qs.stringify({
       response_type: 'code',
@@ -126,6 +126,69 @@ app.get('/refresh_token', function(req, res) {
     }).catch((err) => console.log('Err3', err));
 });
 
+
+// get all of user's playlist
+// I: access token O: JSON
+app.get('/playlist', function(req, res) {
+  // console.log(req.headers);
+  const accessToken = req.headers.accesstoken;
+  console.log(accessToken);
+  const options = {
+    url: 'https://api.spotify.com/v1/me/playlists',
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  };
+  
+  axios(options)
+    .then(response => {
+      // console.log(response.data.items);
+      // res.json(response.data.items)
+      res.status(200).json(response.data.items);
+    })
+    // .then(() => {
+    //   // res.sendStatus(200);
+    // })
+    .catch((err) => {
+      // console.error(err);
+      res.sendStatus(500);
+    });
+});
+
+// get a specific playlist
+// I: access token and playlist id O: json
+app.get('/playlist/:playlistID', function(req, res) {
+  // console.log(req.params);
+  const accessToken = req.headers.accesstoken;
+
+  const playlistID = req.params.playlistID;
+  const options = {
+    url: `https://api.spotify.com/v1/playlists/${playlistID}?market=US&fields=tracks.items.track`,
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  };
+  
+  axios(options)
+    .then(response => {
+      // console.log(response.data.items);
+      // res.json(response.data.items)
+      console.log(response.data.tracks);
+      res.status(200).json(response.data.tracks);
+    })
+    // .then(() => {
+    //   // res.sendStatus(200);
+    // })
+    .catch((err) => {
+      // console.error(err);
+    });
+});
 
 module.exports = {
   app,
