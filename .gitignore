@@ -1,2 +1,9 @@
+.DS_Store
 node_modules
+<<<<<<< HEAD
 client/dist/bundle.js
+=======
+client/dist/bundle.js
+config/auth.js
+.env
+>>>>>>> 5f3ce389f0c0c011a7a9e4d4c54ce1444819d9a1
