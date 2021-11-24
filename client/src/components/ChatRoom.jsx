@@ -9,10 +9,7 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
     };
-
-
     this.handleClick = this.handleClick.bind(this);
-
   }
 
   handleClick(e) {
@@ -51,7 +48,7 @@ class ChatRoom extends React.Component {
 
         <div className="singleChat">
           {this.props.messages.map((message) => {
-            return <SingleChat key={message._id} message={message.message}/>;
+            return <SingleChat key={message._id} message={message.message} ID={this.props.ID}/>;
           })}
         </div>
       </div>

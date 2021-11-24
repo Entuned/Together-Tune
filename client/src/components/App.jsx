@@ -10,10 +10,12 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      messages: []
+      messages: [],
+      ID: this.generateUserID()
     };
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
+    this.generateUserID = this.generateUserID.bind(this);
   }
 
   getMessages() {
@@ -36,6 +38,12 @@ class App extends React.Component {
       .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
+
+  generateUserID() {
+    return Math.random().toString(36).substr(2, 10);
+  }
+
+
   componentDidMount() {
     this.getMessages();
   }
@@ -50,7 +58,7 @@ class App extends React.Component {
           direction="column"
           alignItems="center"
           style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
-          <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages}/>
+          <ChatRoom messages={this.state.messages} getMessages={this.getMessages} postMessages={this.postMessages} ID={this.state.ID}/>
         </Grid>
       </div>
     );

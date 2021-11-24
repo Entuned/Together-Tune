@@ -6,10 +6,11 @@ class SingleChat extends React.Component {
     this.state = {
     };
   }
+
   render() {
     return (
       <div className='soloMessageClass'>
-        <div className='soloMessage'>{this.props.message}</div>
+        <div className='soloMessage'>{this.props.ID}:{this.props.message}</div>
       </div>
     );
   }
