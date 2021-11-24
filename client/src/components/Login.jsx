@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Login = ({ loginUrl }) => {
-  // console.log('login', loginUrl);
+const Login = () => {
   return (
     <div>
-      <a href={loginUrl}>Login with spotify</a>
+      <a href ='/login'>Login with spotify</a>
     </div>
   );
 };
