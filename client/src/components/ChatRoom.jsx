@@ -10,10 +10,45 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
       messages: [],
+      
     };
     this.handleClick = this.handleClick.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
+    this.waitForToken = this.waitForToken.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
+  }
+
+  getUserInfo(token) {
+    // console.log(token);
+    const options = {
+      url: 'http://localhost:3000/userInfo',
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'accessToken': token
+      },
+    };
+    // console.log(options);
+    axios.get(options)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(err => console.log(err));
+
+    // console.log('get User info', token);
+  }
+
+  waitForToken() {
+    if (!this.props.token) {
+      setTimeout(() => {
+        this.waitForToken();
+      }, 1000);
+    } else {
+      // console.log('im ready', this.props.token);
+      this.getUserInfo(this.props.token);
+    }
   }
 
   handleClick(e) {
@@ -36,13 +71,13 @@ class ChatRoom extends React.Component {
   }
 
   postMessages(message) {
-    console.log(message);
+    // console.log(message);
     const newMessage = {
       userName: 'testUser',
       message: message.text,
       accessTokenKey: ''
     };
-    console.log(newMessage);
+    // console.log(newMessage);
     axios.post('http://localhost:3000/messages', newMessage)
       .then(() => this.getMessages())
       .catch(err => console.log(err));
@@ -50,6 +85,7 @@ class ChatRoom extends React.Component {
 
 
   componentDidMount() {
+    this.waitForToken();
     this.getMessages();
     setInterval(() => {
       this.getMessages();

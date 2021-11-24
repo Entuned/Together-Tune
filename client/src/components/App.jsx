@@ -41,7 +41,7 @@ class App extends React.Component {
           direction="column"
           alignItems="center"
           style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
-          <ChatRoom ID={this.state.ID}/>
+          <ChatRoom ID={this.state.ID} token={this.state.accessTokenKey}/>
         </Grid>
       </div>
     );
