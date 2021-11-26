@@ -16,6 +16,7 @@ app.get('/messages', (req, res) => {
 //post
 app.post('/messages', (req, res) => {
   const user = req.body;
+  console.log(req.body);
   Users.create(user)
     .then(() => {
       console.log(user);
