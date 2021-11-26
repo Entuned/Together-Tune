@@ -1,10 +1,8 @@
 import React from 'react';
 import { useEffect } from 'react';
 import Login from './Login.jsx';
-// import Logout from './Logout.jsx';
-// import Playlists from './Playlists.jsx';
-// import sampleData from '/client/sampleData.js';
-import axios from 'axios';
+import Logout from './Logout.jsx';
+import Account from './Account.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,50 +13,36 @@ class App extends React.Component {
     };
   }
 
-
   componentDidMount() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const accessToken = urlParams.get('access_token');
-    const refreshToken = urlParams.get('refresh_token');
-    this.setState({
-      accessTokenKey: accessToken
-    });
-    console.log(accessToken);
+    // console.log(document.cookie.split(';').find((elem) => elem.trim().startsWith('access_token')).split('=')[1]);
+    try {
+      const cookieToken = document.cookie.split(';').find((elem) => elem.trim().startsWith('access_token')).split('=')[1];
+      this.setState({
+        accessTokenKey: cookieToken
+      });
+    } catch (err) {}
+
   }
+
   render() {
-    // const {user} = this.state;
+    const {accessTokenKey} = this.state;
     return (
       <div>
         <h1>Entuned-test-webpack</h1>
-        <Login />
-        {this.state.accessTokenKey}
-        {/* <p>{user.displayName}</p>
-          <Playlists data={sampleData}/> */}
+        {accessTokenKey ? (
+          <div>
+            <p>Logged In</p>
+            <button><Logout/></button>
+            <Account accessTokenKey={accessTokenKey}/>
+          </div>
+        ) : (
+          <button><Login/></button>
+        )}
       </div>
     );
   }
+
 }
 
-// const App = () => {
-//   useEffect(() => {
-//     const queryString = window.location.search;
-//     const urlParams = new URLSearchParams(queryString);
-//     const accessToken = urlParams.get('access_token');
-//     const refreshToken = urlParams.get('refresh_token');
-
-//     console.log('accesstoken', accessToken);
-//     // console.log('refreshtoken', refreshToken);
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>Entuned-test-webpack</h1>
-//       <Login />
-//       {/* <p>{user.displayName}</p>
-//       <Playlists data={sampleData}/> */}
-//     </div>
-//   );
-// };
 
 export default App;
