@@ -23,7 +23,7 @@ class Account extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log(data);
+      // console.log(data);
       this.setState({
         profile: data
       });
@@ -38,7 +38,7 @@ class Account extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log(data);
+      // console.log(data);
       this.setState({
         playlists: data
       });

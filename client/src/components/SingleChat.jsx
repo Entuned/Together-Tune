@@ -10,8 +10,10 @@ class SingleChat extends React.Component {
   render() {
     return (
       <div className='soloMessageClass'>
-        <div style={{ fontWeight: 'bold'}}>{this.props.ID} ~ </div>
-        <font style={{ color: '#0000ff'}}>{this.props.message}</font>
+        <div className='hidden'>
+          <div style={{ fontWeight: 'bold'}}>{this.props.ID} ~ </div>
+          <font style={{ color: '#0000ff'}}> | {this.props.message}</font>
+        </div>
       </div>
     );
   }

@@ -10,10 +10,13 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
       messages: [],
+      profile: {},
+
     };
     this.handleClick = this.handleClick.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
+    this.userProfile = this.userProfile.bind(this);
   }
 
   handleClick(e) {
@@ -48,9 +51,26 @@ class ChatRoom extends React.Component {
       .catch(err => console.log(err));
   }
 
+  userProfile() {
+    console.log(this.props);
+    axios({
+      method: 'GET',
+      url: '/me',
+      headers: {
+        'accessToken': this.props.accessTokenKey
+      }
+    }).then(({data}) => {
+      console.log('chatroom', data);
+      this.setState({
+        profile: data
+      });
+    }).catch((err) => console.error('err'));
+  }
+
 
   componentDidMount() {
     this.getMessages();
+    this.userProfile();
     setInterval(() => {
       this.getMessages();
     }, 1000);
@@ -76,7 +96,7 @@ class ChatRoom extends React.Component {
 
         <div className="singleChat">
           {this.state.messages.map((message) => {
-            return <SingleChat key={message._id} message={message.message} ID={this.props.ID}/>;
+            return <SingleChat key={message._id} message={message.message} ID={this.state.profile.display_name}/>;
           })}
         </div>
       </div>
