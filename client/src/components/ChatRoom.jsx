@@ -72,7 +72,7 @@ class ChatRoom extends React.Component {
   postMessages(message) {
     // console.log('mess', message);
     const newMessage = {
-      userName: this.state.displayName,
+      userName: this.state.profile.display_name,
       message: message.text,
       accessTokenKey: ''
     };
@@ -131,6 +131,7 @@ class ChatRoom extends React.Component {
         <div className="singleChat">
           {this.state.messages.map((message) => {
             if (message.userName === '') {
+              { /* console.log('invalid id'); */ }
             } else {
               return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}/>;
             }
