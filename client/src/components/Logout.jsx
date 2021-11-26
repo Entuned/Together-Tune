@@ -1,9 +1,10 @@
 import React from 'react';
+import { Button } from '@material-ui/core';
 
 const Logout = () => {
   return (
     <div>
-      <a href ='/'>Logout</a>
+      <a href ='/logout'>Logout</a>
     </div>
   );
 };

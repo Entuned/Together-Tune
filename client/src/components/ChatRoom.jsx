@@ -17,60 +17,37 @@ class ChatRoom extends React.Component {
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
     this.waitForToken = this.waitForToken.bind(this);
-    this.getUserInfo = this.getUserInfo.bind(this);
+    this.userProfile = this.userProfile.bind(this);
   }
-
-  getUserInfo(token) {
-    // console.log(token);
-    // const options = {
-    //   url: 'http://localhost:3000/playlist',
-    //   method: 'GET',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //     'accessToken': token
-    //   },
-    // };
-    // // console.log(options);
-    // axios.get(options)
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    // .catch(err => console.log(err));
-
-    // console.log('get User info', token);
-    const options = {
-      url: 'https://api.spotify.com/v1/me',
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-    };
   
-    axios(options)
-      .then(response => {
-        // console.log(response.data);
-        // console.log(response.data.display_name);
-        this.setState({
-          displayName: response.data.display_name
-        });
-        // console.log(this.state);
-      })
-      .catch((err) => {
-        res.sendStatus(500);
+  
+
+  userProfile() {
+    axios({
+      method: 'GET',
+      url: '/me',
+      headers: {
+        'accessToken': this.props.accessTokenKey
+      }
+    }).then(({data}) => {
+      console.log('userProfile', data);
+      this.setState({
+        profile: data
       });
+    }).catch((err) => console.error('err'));
   }
+
+    
 
   waitForToken() {
+    // console.log(this.props);
     if (!this.props.token) {
       setTimeout(() => {
         this.waitForToken();
       }, 1000);
     } else {
       // console.log('im ready', this.props.token);
-      this.getUserInfo(this.props.token);
+      this.userProfile(this.props.token);
     }
   }
 
@@ -100,7 +77,7 @@ class ChatRoom extends React.Component {
       message: message.text,
       accessTokenKey: ''
     };
-    console.log('nes message', newMessage);
+    // console.log('nes message', newMessage);
     // console.log(newMessage);
     axios.post('http://localhost:3000/messages', newMessage)
       .then(() => this.getMessages())
@@ -114,6 +91,7 @@ class ChatRoom extends React.Component {
     setInterval(() => {
       this.getMessages();
     }, 1000);
+    this.userProfile();
   }
 
 
