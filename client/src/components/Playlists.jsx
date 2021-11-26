@@ -1,17 +1,23 @@
 import React from 'react';
-import axios from 'axios';
 
-
-const Playlist = () => {
+const Playlist = ({ playlists, handleClick }) => {
   return (
     <div>
-      <h4>Playlist</h4>
+      <h1>Playlist</h1>
       {
-        data[0].items.map((val, key) => {
+        playlists.map((playlist) => {
+          // console.log(playlist);
           return (
-            <ul>
-              <li>{val.name}</li>
-            </ul>
+            <div>
+              {playlist.images.map((val) => {
+                // console.log(Object.entries(val));
+                return (
+                  <img onClick={() => handleClick(playlist)} src={Object.entries(val)[1][1]}/>
+                );
+              })}
+              <div onClick={() => handleClick(playlist)}>PlayList Name: {playlist.name}</div>
+              <div># Tracks: {playlist.tracks.total}</div>
+            </div>
           );
         })
       }
