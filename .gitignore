@@ -3,5 +3,4 @@ node_modules
 client/dist/bundle.js
 config/auth.js
 .env
-package-lock.json
-package.json
+
