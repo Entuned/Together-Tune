@@ -13,14 +13,10 @@ class App extends React.Component {
 
     this.state = {
       accessTokenKey: '',
-      ID: this.generateUserID()
     };
-    this.generateUserID = this.generateUserID.bind(this);
   }
 
-  generateUserID() {
-    return Math.random().toString(36).substr(2, 10);
-  }
+
 
   componentDidMount() {
     try {
@@ -54,7 +50,7 @@ class App extends React.Component {
                 direction="column"
                 alignItems="center"
                 style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
-                <ChatRoom accessTokenKey={accessTokenKey} />
+                <ChatRoom ID={this.state.ID} accessTokenKey={accessTokenKey}/>
               </Grid>
             </div>
           ) : (

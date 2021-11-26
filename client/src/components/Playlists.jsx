@@ -7,6 +7,7 @@ const Playlist = ({ playlists, handleClick }) => {
       {
         playlists.map((playlist) => {
           // console.log(playlist);
+          console.log('playlist', playlist);
           return (
             <div>
               {playlist.images.map((val) => {

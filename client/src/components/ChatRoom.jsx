@@ -10,13 +10,43 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
       messages: [],
-      profile: {},
-
+      displayName: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
+    this.waitForToken = this.waitForToken.bind(this);
     this.userProfile = this.userProfile.bind(this);
+  }
+
+
+  userProfile() {
+    axios({
+      method: 'GET',
+      url: '/me',
+      headers: {
+        'accessToken': this.props.accessTokenKey
+      }
+    }).then(({data}) => {
+      console.log('userProfile', data);
+      this.setState({
+        profile: data
+      });
+    }).catch((err) => console.error('err'));
+  }
+
+    
+
+  waitForToken() {
+    // console.log(this.props);
+    if (!this.props.token) {
+      setTimeout(() => {
+        this.waitForToken();
+      }, 1000);
+    } else {
+      // console.log('im ready', this.props.token);
+      this.userProfile(this.props.token);
+    }
   }
 
   handleClick(e) {
@@ -39,13 +69,14 @@ class ChatRoom extends React.Component {
   }
 
   postMessages(message) {
-    console.log(message);
+    // console.log('mess', message);
     const newMessage = {
-      userName: 'testUser',
+      userName: this.state.displayName,
       message: message.text,
       accessTokenKey: ''
     };
-    console.log(newMessage);
+    // console.log('nes message', newMessage);
+    // console.log(newMessage);
     axios.post('http://localhost:3000/messages', newMessage)
       .then(() => this.getMessages())
       .catch(err => console.log(err));
@@ -69,11 +100,13 @@ class ChatRoom extends React.Component {
 
 
   componentDidMount() {
+    this.waitForToken();
     this.getMessages();
     this.userProfile();
     setInterval(() => {
       this.getMessages();
     }, 1000);
+    this.userProfile();
   }
 
 
@@ -96,7 +129,11 @@ class ChatRoom extends React.Component {
 
         <div className="singleChat">
           {this.state.messages.map((message) => {
-            return <SingleChat key={message._id} message={message.message} ID={this.state.profile.display_name}/>;
+            if (message.userName === '') {
+              { /* console.log('invalid id'); */ }
+            } else {
+              return <SingleChat key={message._id} message={message.message} ID={message.userName}/>;
+            }
           })}
         </div>
       </div>
