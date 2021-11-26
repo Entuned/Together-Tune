@@ -46,7 +46,7 @@ class App extends React.Component {
           {accessTokenKey ? (
             <div>
               <p>Logged In</p>
-              <button><Logout/></button>
+              <Button variant="contained" color="secondary"><Logout/></Button>
               <Account accessTokenKey={accessTokenKey}/>
               <Grid
                 container
