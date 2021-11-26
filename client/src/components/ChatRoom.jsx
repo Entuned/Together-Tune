@@ -10,7 +10,8 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
       messages: [],
-      displayName: ''
+      displayName: '',
+      profile: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.getMessages = this.getMessages.bind(this);
@@ -130,9 +131,8 @@ class ChatRoom extends React.Component {
         <div className="singleChat">
           {this.state.messages.map((message) => {
             if (message.userName === '') {
-              { /* console.log('invalid id'); */ }
             } else {
-              return <SingleChat key={message._id} message={message.message} ID={message.userName}/>;
+              return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}/>;
             }
           })}
         </div>
