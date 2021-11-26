@@ -10,6 +10,7 @@ class ChatRoom extends React.Component {
     this.state = {
       text: '',
       messages: [],
+      displayName: ''
       
     };
     this.handleClick = this.handleClick.bind(this);
@@ -21,23 +22,45 @@ class ChatRoom extends React.Component {
 
   getUserInfo(token) {
     // console.log(token);
+    // const options = {
+    //   url: 'http://localhost:3000/playlist',
+    //   method: 'GET',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'accessToken': token
+    //   },
+    // };
+    // // console.log(options);
+    // axios.get(options)
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    // .catch(err => console.log(err));
+
+    // console.log('get User info', token);
     const options = {
-      url: 'http://localhost:3000/userInfo',
+      url: 'https://api.spotify.com/v1/me',
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'accessToken': token
+        'Authorization': `Bearer ${token}`
       },
     };
-    // console.log(options);
-    axios.get(options)
-      .then((response) => {
-        console.log(response);
+  
+    axios(options)
+      .then(response => {
+        // console.log(response.data);
+        // console.log(response.data.display_name);
+        this.setState({
+          displayName: response.data.display_name
+        });
+        // console.log(this.state);
       })
-      .catch(err => console.log(err));
-
-    // console.log('get User info', token);
+      .catch((err) => {
+        res.sendStatus(500);
+      });
   }
 
   waitForToken() {
@@ -71,12 +94,13 @@ class ChatRoom extends React.Component {
   }
 
   postMessages(message) {
-    // console.log(message);
+    // console.log('mess', message);
     const newMessage = {
-      userName: 'testUser',
+      userName: this.state.displayName,
       message: message.text,
       accessTokenKey: ''
     };
+    console.log('nes message', newMessage);
     // console.log(newMessage);
     axios.post('http://localhost:3000/messages', newMessage)
       .then(() => this.getMessages())
@@ -112,7 +136,12 @@ class ChatRoom extends React.Component {
 
         <div className="singleChat">
           {this.state.messages.map((message) => {
-            return <SingleChat key={message._id} message={message.message} ID={this.props.ID}/>;
+            if (message.userName === '') {
+              { /* console.log('invalid id'); */ }
+
+            } else {
+              return <SingleChat key={message._id} message={message.message} ID={message.userName}/>;
+            }
           })}
         </div>
       </div>

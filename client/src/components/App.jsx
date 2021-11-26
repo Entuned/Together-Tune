@@ -10,14 +10,10 @@ class App extends React.Component {
 
     this.state = {
       accessTokenKey: '',
-      ID: this.generateUserID()
     };
-    this.generateUserID = this.generateUserID.bind(this);
   }
 
-  generateUserID() {
-    return Math.random().toString(36).substr(2, 10);
-  }
+
 
   componentDidMount() {
     const queryString = window.location.search;
@@ -41,7 +37,7 @@ class App extends React.Component {
           direction="column"
           alignItems="center"
           style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
-          <ChatRoom ID={this.state.ID} token={this.state.accessTokenKey}/>
+          <ChatRoom token={this.state.accessTokenKey}/>
         </Grid>
       </div>
     );

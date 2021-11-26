@@ -170,8 +170,8 @@ app.get('/playlist/:playlistID', function(req, res) {
 // get uesr info
 app.get('/userInfo', function(req, res) {
   const accessToken = req.headers.accesstoken;
-
   console.log(req);
+  // console.log(req);
 
   const options = {
     url: 'https://api.spotify.com/v1/me',
@@ -186,10 +186,11 @@ app.get('/userInfo', function(req, res) {
   axios(options)
     .then(response => {
       // console.log(response.data.tracks);
-      console.log(response.data);
+      // console.log(response.data);
       res.status(200).json(response.data);
     })
     .catch((err) => {
+      res.sendStatus(404);
     });
 });
 
