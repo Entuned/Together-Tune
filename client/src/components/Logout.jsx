@@ -3,7 +3,7 @@ import React from 'react';
 const Logout = () => {
   return (
     <div>
-      <a href ='/'>Logout</a>
+      <a href ='/logout'>Logout</a>
     </div>
   );
 };
