@@ -9,14 +9,15 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
-
 const client_id = process.env.clientID; // Your client id
 const client_secret = process.env.clientSecret; // Your secret
 const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+const bodyParser = require('body-parser');
 
 app.use(express.static(CLIENT_PATH));
 app.use(cors({ credentials: true }));
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 const authorization = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -141,12 +142,9 @@ app.get('/playlist', authorization, (req, res) => {
 // get a specific playlist
 // I: access token and playlist id O: json
 app.get('/playlist/:playlistID', authorization, (req, res)=> {
-  // console.log(req.params);
   const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
-  // const accessToken = req.headers.accesstoken;
   const playlistID = req.params.playlistID;
   const options = {
-    // url: `https://api.spotify.com/v1/playlists/${playlistID}?market=US&fields=tracks.items.track`,
     url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
 
     method: 'GET',
@@ -187,7 +185,33 @@ app.get('/me', authorization, (req, res) => {
     });
 });
 
+// get uesr info
+app.get('/userInfo', function(req, res) {
+  const accessToken = req.headers.accesstoken;
+  console.log(req);
+  // console.log(req);
+
+  const options = {
+    url: 'https://api.spotify.com/v1/me',
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  };
+
+  axios(options)
+    .then(response => {
+      // console.log(response.data.tracks);
+      // console.log(response.data);
+      res.status(200).json(response.data);
+    })
+    .catch((err) => {
+      res.sendStatus(404);
+    });
+});
+
 module.exports = {
   app,
 };
-
