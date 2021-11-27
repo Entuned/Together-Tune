@@ -9,18 +9,23 @@ class ChatRoom extends React.Component {
     super(props);
     this.state = {
       text: '',
+      friendText: '',
       messages: [],
       displayName: '',
-      profile: ''
+      profile: '',
+      friend: ''
     };
     this.handleClick = this.handleClick.bind(this);
     this.getMessages = this.getMessages.bind(this);
     this.postMessages = this.postMessages.bind(this);
     this.waitForToken = this.waitForToken.bind(this);
     this.userProfile = this.userProfile.bind(this);
+    this.handleClickFriend = this.handleClickFriend.bind(this);
+    this.addFriend = this.addFriend.bind(this);
   }
 
-
+  
+  
   userProfile() {
     axios({
       method: 'GET',
@@ -35,9 +40,9 @@ class ChatRoom extends React.Component {
       });
     }).catch((err) => console.error('err'));
   }
-
-    
-
+  
+  
+  
   waitForToken() {
     // console.log(this.props);
     if (!this.props.token) {
@@ -49,7 +54,26 @@ class ChatRoom extends React.Component {
       this.userProfile(this.props.token);
     }
   }
+  
+  handleClickFriend(e) {
+    e.preventDefault();
+    const {friendText} = this.state;
+    // console.log(friendText);
+    if (!friendText) { return; }
+    // console.log(friendText);
+    this.addFriend(this.state.friendText);
+    this.setState({
+      friendText: '',
+    });
+  }
 
+  addFriend(newFriend) {
+    // console.log(newFriend);
+    this.setState({
+      friend: newFriend
+    });
+  }
+  
   handleClick(e) {
     e.preventDefault();
     const {text} = this.state;
@@ -59,7 +83,7 @@ class ChatRoom extends React.Component {
       text: '',
     });
   }
-
+  
   getMessages() {
     axios.get('http://localhost:3000/messages')
       .then((data) => {
@@ -68,7 +92,7 @@ class ChatRoom extends React.Component {
         });
       });
   }
-
+  
   postMessages(message) {
     // console.log('mess', message);
     const newMessage = {
@@ -82,7 +106,7 @@ class ChatRoom extends React.Component {
       .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
-
+  
   userProfile() {
     console.log(this.props);
     axios({
@@ -98,8 +122,8 @@ class ChatRoom extends React.Component {
       });
     }).catch((err) => console.error('err'));
   }
-
-
+  
+  
   componentDidMount() {
     this.waitForToken();
     this.getMessages();
@@ -109,34 +133,54 @@ class ChatRoom extends React.Component {
     }, 1000);
     this.userProfile();
   }
-
-
+  
+  
   render() {
     return (
       <div>
-        <div className='createMessage'>
+        <h1>Chat Room</h1>
+        <div className='addFriend'>
           <div className="formClass">
             <form onSubmit={e => e.preventDefault()}>
-              <TextField variant="outlined" label="Message"
+              <TextField variant="outlined" label="Friend" fullWidth = "fullWidth" color="success"
+                value={this.state.friendText}
+                onChange={(e) =>
+                  this.setState({friendText: e.target.value })
+                }
+                style={{backgroundColor: 'white'}}
+              />
+              <Button startIcon={<ArrowUpwardIcon/>} variant="contained" color="secondary" onClick={(e) => this.handleClickFriend(e)}>Add Friend</Button>
+            </form>
+          </div>
+        </div>
+        
+        <div className="singleChat">
+          {this.state.messages.map((message) => {
+            if (message.userName === '') {
+              { /* console.log('invalid id'); */ }
+            } else {
+              return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}
+                friend={this.state.friend}
+              />;
+            }
+          })}
+        </div>
+
+        <div className='createMessage' style={{paddingTop: '10px'}}>
+          <div className="formClass">
+            <form onSubmit={e => e.preventDefault()}>
+              <TextField variant="outlined" label="Message" fullWidth = "fullWidth" color="success"
                 value={this.state.text}
                 onChange={(e) =>
                   this.setState({text: e.target.value })
                 }
+                style={{backgroundColor: 'white'}}
               />
               <Button startIcon={<ArrowUpwardIcon/>} variant="contained" color="secondary" onClick={(e) => this.handleClick(e)}>Send Message</Button>
             </form>
           </div>
         </div>
 
-        <div className="singleChat">
-          {this.state.messages.map((message) => {
-            if (message.userName === '') {
-              { /* console.log('invalid id'); */ }
-            } else {
-              return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}/>;
-            }
-          })}
-        </div>
       </div>
     );
   }

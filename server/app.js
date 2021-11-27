@@ -26,7 +26,7 @@ const authorization = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, 'tunes');
-    // console.log('REAALTOKEN', data);
+    console.log('REAALTOKEN', data);
     return next();
   } catch (err) {
     res.sendStatus(403);

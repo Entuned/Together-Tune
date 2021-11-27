@@ -37,7 +37,7 @@ class App extends React.Component {
           spacing={0}
           direction="column"
           alignItems="center"
-          style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
+          style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
           <h1>Listen to music and chat!</h1>
           {accessTokenKey ? (
             <div>
@@ -49,7 +49,7 @@ class App extends React.Component {
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                style={{ minHeight: '200vh', backgroundColor: 'lightgrey' }}>
+                style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
                 <ChatRoom ID={this.state.ID} accessTokenKey={accessTokenKey}/>
               </Grid>
             </div>
