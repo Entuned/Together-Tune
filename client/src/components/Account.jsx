@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import Playlists from './Playlists.jsx';
-import TrackList from './TrackList.jsx';
+import PlayPlaylist from './PlayPlaylist.jsx';
+
 class Account extends React.Component {
   constructor(props) {
     super(props);
@@ -9,11 +10,12 @@ class Account extends React.Component {
       profile: {},
       playlists: [],
       tracks: [],
+      currentPlaying: {}
     };
     this.userProfile = this.userProfile.bind(this);
     this.getPlaylists = this.getPlaylists.bind(this);
     this.onePlaylist = this.onePlaylist.bind(this);
-
+    this.playPlaylist = this.playPlaylist.bind(this);
   }
   userProfile() {
     axios({
@@ -45,6 +47,7 @@ class Account extends React.Component {
     });
   }
 
+  // not going to be used
   onePlaylist(playlist) {
     // console.log('click', playlist.id);
     axios({
@@ -54,11 +57,21 @@ class Account extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
+      // console.log(data);
       this.setState({
-        tracks: data.items
+        tracks: data.items,
       });
     });
   }
+
+  playPlaylist(playlist) {
+    console.log(playlist);
+    this.setState({
+      playPlaylist: playlist
+    });
+  }
+
+  
 
   componentDidMount() {
     this.userProfile();
@@ -66,15 +79,17 @@ class Account extends React.Component {
   }
 
   render () {
-    const {profile, playlists, current, tracks} = this.state;
+    const {profile, playlists, current, playPlaylist} = this.state;
     return (
       <div>
-        <h1>UserInfo</h1>
-        <h4>User: {profile.display_name}</h4>
-        <h4>Email: {profile.email}</h4>
-        <h4>ID: {profile.id}</h4>
-        <Playlists handleClick={this.onePlaylist} playlists={playlists} />
-        <TrackList tracks={tracks}/>
+
+        <PlayPlaylist playlist={playPlaylist}/>
+
+        {/* <h1>UserInfo</h1> */}
+        <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
+        {/* <h4>Email: {profile.email}</h4>
+        <h4>ID: {profile.id}</h4> */}
+        <Playlists handleClick={this.playPlaylist} playlists={playlists} />
       </div>
     );
   }
