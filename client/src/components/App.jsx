@@ -14,7 +14,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(document.cookie.split(';').find((elem) => elem.trim().startsWith('access_token')).split('=')[1]);
     try {
       const cookieToken = document.cookie.split(';').find((elem) => elem.trim().startsWith('access_token')).split('=')[1];
       this.setState({

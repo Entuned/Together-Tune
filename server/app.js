@@ -130,6 +130,7 @@ app.get('/playlist', authorization, (req, res) => {
 
   axios(options)
     .then(response => {
+      // console.log(response.data, 'playlist');
       res.status(200).json(response.data.items);
     })
     .catch((err) => {
@@ -142,9 +143,12 @@ app.get('/playlist', authorization, (req, res) => {
 app.get('/playlist/:playlistID', authorization, (req, res)=> {
   // console.log(req.params);
   const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  // const accessToken = req.headers.accesstoken;
   const playlistID = req.params.playlistID;
   const options = {
-    url: `https://api.spotify.com/v1/playlists/${playlistID}?market=US&fields=tracks.items.track`,
+    // url: `https://api.spotify.com/v1/playlists/${playlistID}?market=US&fields=tracks.items.track`,
+    url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -154,9 +158,9 @@ app.get('/playlist/:playlistID', authorization, (req, res)=> {
   };
 
   axios(options)
-    .then(response => {
-      console.log(response.data.tracks);
-      res.status(200).json(response.data.tracks);
+    .then(({ data })=> {
+      // console.log(data, 'PLAYID');
+      res.status(200).json(data);
     })
     .catch((err) => {
       console.error(err);
