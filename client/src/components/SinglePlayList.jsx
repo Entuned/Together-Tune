@@ -35,10 +35,19 @@ import React from 'react';
 // }
 
 const SinglePlayList = (props) => {
-  console.log(props);
-  // console.log(props.playlist.images);
+  // console.log(props);
+  console.log(props.playlist);
+  // if (!!props.playlist) {
+  //   console.log(props.playlist);
+  // }
   return (
-    <div>PlayList GOES HERE</div>
+    <div>
+      {/* <img src={props.playlist.images[0]}/> */}
+      <img style ={{width: '250px', height: '250px', border: '5px black'}}
+        src={props.playlist.images[0].url}
+        alt="new"
+      />
+    </div>
   );
 };
 

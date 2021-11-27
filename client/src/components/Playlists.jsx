@@ -28,17 +28,20 @@ class Playlist extends React.Component {
   render() {
     return (
       <div>
-        <SinglePlayList/>
+
         <h1>Playlist</h1>
         {
           this.props.playlists.map((playlist) => {
-          // console.log(playlist);s
-            { /* console.log('playlist', playlist); */ }
-            return (
-              <div>
-                <SinglePlayList key={playlist.id} playlist={playlist}/>
-              </div>
-            );
+            if (playlist.images) {
+              return (
+                <div style={{display: 'inline-block', 
+                  // flexDirection: 'row',
+                  // justifyContent: 'flex-start'
+                }}>
+                  <SinglePlayList keyName={playlist.id} playlist={playlist}/>
+                </div>
+              );
+            } 
           })
         }
       </div>
