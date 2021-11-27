@@ -11,10 +11,10 @@ const SinglePlaylist = ({playlist, token}) => {
         'accessToken': this.props.accessTokenKey
       }
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
     });
   };
-  console.log(playlist, 'sign');
+  // console.log(playlist, 'sign');
 
   return (
     <div>
