@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TrackList = ({tracks}) => {
-  console.log(tracks);
+  // console.log(tracks);
   return (
     <div>
       <h1>Tracklist</h1>

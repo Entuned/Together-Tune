@@ -34,7 +34,7 @@ class ChatRoom extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log('userProfile', data);
+      // console.log('userProfile', data);
       this.setState({
         profile: data
       });
@@ -108,7 +108,7 @@ class ChatRoom extends React.Component {
   }
   
   userProfile() {
-    console.log(this.props);
+    // console.log(this.props);
     axios({
       method: 'GET',
       url: '/me',
@@ -116,7 +116,7 @@ class ChatRoom extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log('chatroom', data);
+      // console.log('chatroom', data);
       this.setState({
         profile: data
       });
