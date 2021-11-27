@@ -9,9 +9,11 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
-const client_id = '7f10185a779840d59436fc9f98fe4cd6'; // Your client id
-const client_secret = 'd44b3ab28f2345fb8f3b9e6855cf77a2'; // Your secret
+const client_id = 'd8884bef1dc74d43b35d94c52871aeb3'; // Your client id
+const client_secret = 'e505c271aca54bf78fb5d8770d19cd8f'; // Your secret
 const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
+// const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+
 const bodyParser = require('body-parser');
 
 app.use(express.static(CLIENT_PATH));
@@ -26,7 +28,7 @@ const authorization = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, 'tunes');
-    // console.log('REAALTOKEN', data);
+    console.log('REAALTOKEN', data);
     return next();
   } catch (err) {
     res.sendStatus(403);
@@ -34,7 +36,7 @@ const authorization = (req, res, next) => {
 };
 
 app.get('/login', (req, res) => {
-  const scope = 'user-read-private user-read-email playlist-read-private';
+  const scope = ' user-read-private user-read-email playlist-read-private ';
   res.redirect('https://accounts.spotify.com/authorize?' +
     qs.stringify({
       response_type: 'code',
