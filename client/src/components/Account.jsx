@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import Playlists from './Playlists.jsx';
-import SinglePlaylist from './SinglePlaylist.jsx';
+import TrackList from './TrackList.jsx';
 class Account extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       profile: {},
       playlists: [],
-      current: {}
+      tracks: [],
     };
     this.userProfile = this.userProfile.bind(this);
     this.getPlaylists = this.getPlaylists.bind(this);
@@ -23,7 +23,7 @@ class Account extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log(data);
+      // console.log(data);
       this.setState({
         profile: data
       });
@@ -38,9 +38,24 @@ class Account extends React.Component {
         'accessToken': this.props.accessTokenKey
       }
     }).then(({data}) => {
-      console.log(data);
+      // console.log(data);
       this.setState({
         playlists: data
+      });
+    });
+  }
+
+  onePlaylist(playlist) {
+    // console.log('click', playlist.id);
+    axios({
+      method: 'GET',
+      url: `/playlist/${playlist.id}`,
+      headers: {
+        'accessToken': this.props.accessTokenKey
+      }
+    }).then(({data}) => {
+      this.setState({
+        tracks: data.items
       });
     });
   }
@@ -50,15 +65,8 @@ class Account extends React.Component {
     this.getPlaylists();
   }
 
-  onePlaylist(playlist) {
-    // console.log('click', playlist);
-    this.setState({
-      current: playlist
-    });
-  }
-
   render () {
-    const {profile, playlists, current} = this.state;
+    const {profile, playlists, current, tracks} = this.state;
     return (
       <div>
         <h1>UserInfo</h1>
@@ -66,7 +74,7 @@ class Account extends React.Component {
         <h4>Email: {profile.email}</h4>
         <h4>ID: {profile.id}</h4>
         <Playlists handleClick={this.onePlaylist} playlists={playlists} />
-        <SinglePlaylist playlist={current} token={this.props.accessTokenKey}/>
+        <TrackList tracks={tracks}/>
       </div>
     );
   }

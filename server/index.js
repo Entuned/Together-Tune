@@ -12,6 +12,22 @@ app.get('/messages', (req, res) => {
       res.sendStatus(404);
     });
 });
+// 
+// app.get('/coupleMessages', (req, res) => {
+//   Users.find()
+//     .then((data)=>{ 
+//       console.log(data);
+//       // two fake users to filter by
+//       const user1 = 'sbelete01';
+//       // const user2 = ''
+//       return data; 
+//     })
+//     .then(users => res.status(200).send(users))
+//     .catch(err => {
+//       console.error('Error:', err);
+//       res.sendStatus(404);
+//     });
+// });
 
 //post
 app.post('/messages', (req, res) => {
@@ -19,7 +35,7 @@ app.post('/messages', (req, res) => {
   console.log(req.body);
   Users.create(user)
     .then(() => {
-      console.log(user);
+      // console.log(user);
     })
     .then(() => res.sendStatus(201))
     .catch(() => res.sendStatus(404));
@@ -33,6 +49,8 @@ app.delete('/messages:_id', (req, res) => {
     .then(() => res.sendStatus(200))
     .catch(() => res.sendStatus(404));
 });
+
+
 
 
 
