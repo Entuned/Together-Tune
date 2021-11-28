@@ -110,8 +110,8 @@ class Account extends React.Component {
           'context_uri': data.items[0].track.album.uri
         };
         axios({
-          method: 'POST',
-          url: '/sam',
+          method: 'PUT',
+          url: '/play',
           headers: {
             'accessToken': this.props.accessTokenKey
           },
@@ -126,8 +126,8 @@ class Account extends React.Component {
           }
         };
         axios({
-          method: 'POST',
-          url: '/sam',
+          method: 'PUT',
+          url: '/play',
           headers: {
             'accessToken': this.props.accessTokenKey
           },
