@@ -8,7 +8,6 @@ class SinglePlayList extends React.Component {
   render() {
     if (!!this.props.playlist.images.length) {
       return <div>
-        {/* <img src={props.playlist.images[0]}/> */}
         <img style ={{width: '250px', height: '250px', border: '5px solid black' 
         }}
         onClick={() => this.props.handleClick(this.props.playlist)}

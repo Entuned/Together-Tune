@@ -120,7 +120,7 @@ app.get('/refresh_token', function(req, res) {
 // get all of user's playlist
 // I: access token O: JSON
 app.get('/playlist', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me/playlists',
     method: 'GET',
@@ -144,7 +144,7 @@ app.get('/playlist', authorization, (req, res) => {
 // get a specific playlist
 // I: access token and playlist id O: json
 app.get('/playlist/:playlistID', authorization, (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const playlistID = req.params.playlistID;
   const options = {
     url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
@@ -168,7 +168,7 @@ app.get('/playlist/:playlistID', authorization, (req, res)=> {
 });
 
 app.get('/me', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me',
     method: 'GET',
@@ -187,41 +187,12 @@ app.get('/me', authorization, (req, res) => {
     });
 });
 
-// get uesr info
-app.get('/userInfo', function(req, res) {
-  const accessToken = req.headers.accesstoken;
-  // console.log(req);
-  // console.log(req);
-
-  const options = {
-    url: 'https://api.spotify.com/v1/me',
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    },
-  };
-
-  axios(options)
-    .then(response => {
-      // console.log(response.data.tracks);
-      // console.log(response.data);
-      res.status(200).json(response.data);
-    })
-    .catch((err) => {
-      res.sendStatus(404);
-    });
-});
-
-
-
 
 /// play a specific album
 // get a specific playlist
 // I: access token and playlist id O: json
 app.post('/sam', (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   // const accessToken = 'BQCNeCnb58Wkyi6UPCsd9z1GRNPndpJ7hTbmHspQ4e1NXNdunqCq1XOLN-uR8HBZsG0D5AjgyOHhHsv_81XfrLbQPp3jxL33ZmbuREl7KPDmeSySPUhEkbkaqakTUs-_2QBVAHL5GJaj5CT8U44l9s_Ljbe_c8yvvimJxTLB7gKc';
   const reqBody = req.body;
   // console.log('req', reqBody);
@@ -242,12 +213,9 @@ app.post('/sam', (req, res)=> {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.error(err);
+      console.error('PUT ERR', err);
     });
 });
-
-
-
 
 
 module.exports = {

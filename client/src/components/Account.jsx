@@ -21,11 +21,7 @@ class Account extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
     }).then(({data}) => {
-      // console.log(data);
       this.setState({
         profile: data
       });
@@ -36,9 +32,6 @@ class Account extends React.Component {
     axios({
       method: 'GET',
       url: '/playlist',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
     }).then(({data}) => {
       this.setState({
         playlists: data
@@ -64,7 +57,6 @@ class Account extends React.Component {
         method: 'POST',
         url: '/sharePlaylist',
         headers: {
-          'accessToken': this.props.accessTokenKey,
           'user': data.user
         },
         data: data
@@ -78,9 +70,6 @@ class Account extends React.Component {
     axios({
       method: 'GET',
       url: `/playlist/${playlist.id}`,
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
     }).then(({data}) => {
       // console.log(data);
       this.setState({
@@ -97,14 +86,7 @@ class Account extends React.Component {
     axios({
       method: 'GET',
       url: `/playlist/${playlist.id}`,
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
     }).then(({data}) => {
-      // console.log(data);
-
-      // separate albums that are single vs albums
-      // to handle the offsets
       if (data.items[0].track.album.album_type === 'single') {
         const reqBody = {
           'context_uri': data.items[0].track.album.uri
@@ -112,12 +94,8 @@ class Account extends React.Component {
         axios({
           method: 'POST',
           url: '/sam',
-          headers: {
-            'accessToken': this.props.accessTokenKey
-          },
           data: reqBody
         });
-        
       } else {
         const reqBody = {
           'context_uri': data.items[0].track.album.uri,
@@ -128,16 +106,11 @@ class Account extends React.Component {
         axios({
           method: 'POST',
           url: '/sam',
-          headers: {
-            'accessToken': this.props.accessTokenKey
-          },
           data: reqBody
         });
       }
     });
   }
-
-  
 
   componentDidMount() {
     this.userProfile();
@@ -148,13 +121,8 @@ class Account extends React.Component {
     const {profile, playlists, current, playPlaylist} = this.state;
     return (
       <div>
-
-        <PlayPlaylist playlist={playPlaylist}/>
-
-        {/* <h1>UserInfo</h1> */}
         <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
-        {/* <h4>Email: {profile.email}</h4>
-        <h4>ID: {profile.id}</h4> */}
+        <PlayPlaylist playlist={playPlaylist}/>
         <Playlists handleClick={this.playPlaylist} playlists={playlists} />
       </div>
     );

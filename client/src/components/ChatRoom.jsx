@@ -30,9 +30,9 @@ class ChatRoom extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('userProfile', data);
       this.setState({
@@ -70,7 +70,7 @@ class ChatRoom extends React.Component {
       method: 'GET',
       url: '/getFriendsPlaylist',
       headers: {
-        'accessToken': this.props.token,
+        // 'accessToken': this.props.token,
         user: 'issayastewo'
       },
     })
@@ -126,9 +126,9 @@ class ChatRoom extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('chatroom', data);
       this.setState({
