@@ -97,7 +97,7 @@ class ChatRoom extends React.Component {
   }
   
   getMessages() {
-    axios.get('http://localhost:3000/messages')
+    axios.get('/messages')
       .then((data) => {
         this.setState({
           messages: data.data
@@ -116,7 +116,7 @@ class ChatRoom extends React.Component {
     };
     // console.log('nes message', newMessage);
     // console.log(newMessage);
-    axios.post('http://localhost:3000/messages', newMessage)
+    axios.post('/messages', newMessage)
       .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
@@ -137,7 +137,7 @@ class ChatRoom extends React.Component {
     }).catch((err) => console.error('err'));
   }
   
-  
+   
   componentDidMount() {
     this.waitForToken();
     this.getMessages();

@@ -92,8 +92,8 @@ class Account extends React.Component {
           'context_uri': data.items[0].track.album.uri
         };
         axios({
-          method: 'POST',
-          url: '/sam',
+          method: 'PUT',
+          url: '/play',
           data: reqBody
         });
       } else {
@@ -104,8 +104,8 @@ class Account extends React.Component {
           }
         };
         axios({
-          method: 'POST',
-          url: '/sam',
+          method: 'PUT',
+          url: '/play',
           data: reqBody
         });
       }
