@@ -9,17 +9,11 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
-<<<<<<< HEAD
-const client_id = process.env.clientID; // Your client id
-const client_secret = process.env.clientSecret; // Your secret
-const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
-=======
 const client_id = 'd8884bef1dc74d43b35d94c52871aeb3'; // Your client id
 const client_secret = 'e505c271aca54bf78fb5d8770d19cd8f'; // Your secret
 const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
 // const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
->>>>>>> 64851229b3fe0513872272fe80eb4cbcace76640
 const bodyParser = require('body-parser');
 
 app.use(express.static(CLIENT_PATH));
