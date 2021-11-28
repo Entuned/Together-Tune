@@ -234,7 +234,7 @@ app.get('/devices', authorization, (req, res) => {
       console.log(response.data, 'device');
       res.status(200).json(response.data);
     }).catch((err) => 
-    res.sendStatus(500));
+      res.sendStatus(500));
 });
 
 
