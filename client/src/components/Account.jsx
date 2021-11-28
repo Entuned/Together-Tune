@@ -65,9 +65,38 @@ class Account extends React.Component {
   }
 
   playPlaylist(playlist) {
-    console.log(playlist);
+    // console.log(playlist);
     this.setState({
       playPlaylist: playlist
+    });
+    axios({
+      method: 'GET',
+      url: `/playlist/${playlist.id}`,
+      headers: {
+        'accessToken': this.props.accessTokenKey
+      }
+    }).then(({data}) => {
+      // console.log('HIT ME');
+      // console.log(data);
+      const reqBody = {
+        'context_uri': data.items[0].track.album.uri
+      };
+      console.log('reqBody', reqBody);
+      axios({
+        method: 'POST',
+        url: '/sam',
+        headers: {
+          'accessToken': this.props.accessTokenKey
+        },
+        // data: {
+        //   'context_uri': 'spotify:album:5N6520vpd3Nj66r18wlU4s',
+        //   'offset': {
+        //     'position': 5
+        //   },
+        //   'position_ms': 0
+        // }
+        data: reqBody
+      });
     });
   }
 
