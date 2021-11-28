@@ -11,8 +11,8 @@ const jwt = require('jsonwebtoken');
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
 const client_id = 'd8884bef1dc74d43b35d94c52871aeb3'; // Your client id
 const client_secret = 'e505c271aca54bf78fb5d8770d19cd8f'; // Your secret
-// const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
-const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
+// const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 const bodyParser = require('body-parser');
 
@@ -28,7 +28,7 @@ const authorization = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, 'tunes');
-    console.log('REAALTOKEN', data);
+    // console.log('REAALTOKEN', data);
     return next();
   } catch (err) {
     res.sendStatus(403);
@@ -224,7 +224,7 @@ app.post('/sam', (req, res)=> {
   const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
   // const accessToken = 'BQCNeCnb58Wkyi6UPCsd9z1GRNPndpJ7hTbmHspQ4e1NXNdunqCq1XOLN-uR8HBZsG0D5AjgyOHhHsv_81XfrLbQPp3jxL33ZmbuREl7KPDmeSySPUhEkbkaqakTUs-_2QBVAHL5GJaj5CT8U44l9s_Ljbe_c8yvvimJxTLB7gKc';
   const reqBody = req.body;
-  console.log('req', reqBody);
+  // console.log('req', reqBody);
   const options = {
     url: 'https://api.spotify.com/v1/me/player/play',
     method: 'PUT',
@@ -233,11 +233,9 @@ app.post('/sam', (req, res)=> {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
     },
-    data: {
-      'context_uri': reqBody.context_uri
-    }
+    data: reqBody
   };
-  console.log(options);
+  // console.log(options);
 
   axios(options)
     .then(()=> {
