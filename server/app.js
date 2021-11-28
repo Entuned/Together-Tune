@@ -17,12 +17,13 @@ const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:30
 const bodyParser = require('body-parser');
 
 app.use(express.static(CLIENT_PATH));
-app.use(cors({ credentials: true }));
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+// app.use(cors({ credentials: true }));
+// app.use(function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   next();
+// });
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
