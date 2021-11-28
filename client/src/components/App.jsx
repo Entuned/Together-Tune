@@ -41,9 +41,8 @@ class App extends React.Component {
           <h1>Listen to music and chat!</h1>
           {accessTokenKey ? (
             <div>
-              <p>Logged In</p>
               <Button variant="contained" color="secondary"><Logout/></Button>
-              <Account accessTokenKey={accessTokenKey}/>
+              <Account/>
               <Grid
                 container
                 spacing={0}

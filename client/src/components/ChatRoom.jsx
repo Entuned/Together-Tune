@@ -30,9 +30,9 @@ class ChatRoom extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('userProfile', data);
       this.setState({
@@ -70,7 +70,7 @@ class ChatRoom extends React.Component {
       method: 'GET',
       url: '/getFriendsPlaylist',
       headers: {
-        'accessToken': this.props.token,
+        // 'accessToken': this.props.token,
         user: 'issayastewo'
       },
     })
@@ -97,7 +97,7 @@ class ChatRoom extends React.Component {
   }
   
   getMessages() {
-    axios.get('http://http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/messages')
+    axios.get('/messages')
       .then((data) => {
         this.setState({
           messages: data.data
@@ -116,7 +116,7 @@ class ChatRoom extends React.Component {
     };
     // console.log('nes message', newMessage);
     // console.log(newMessage);
-    axios.post('http://http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/messages', newMessage)
+    axios.post('/messages', newMessage)
       .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
@@ -126,9 +126,9 @@ class ChatRoom extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('chatroom', data);
       this.setState({

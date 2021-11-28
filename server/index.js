@@ -13,32 +13,14 @@ app.get('/messages', (req, res) => {
       res.sendStatus(404);
     });
 });
-// 
-// app.get('/coupleMessages', (req, res) => {
-//   Users.find()
-//     .then((data)=>{ 
-//       console.log(data);
-//       // two fake users to filter by
-//       const user1 = 'sbelete01';
-//       // const user2 = ''
-//       return data; 
-//     })
-//     .then(users => res.status(200).send(users))
-//     .catch(err => {
-//       console.error('Error:', err);
-//       res.sendStatus(404);
-//     });
-// });
 
-//post
 app.post('/messages', (req, res) => {
   const user = req.body;
   console.log(req.body);
   Users.create(user)
     .then(() => {
-      // console.log(user);
+      res.status(201).send(user);
     })
-    .then(() => res.sendStatus(201))
     .catch(() => res.sendStatus(404));
 });
 
@@ -58,15 +40,6 @@ app.post('/sharePlaylist', (req, res) => {
   // console.log('hit');
   // console.log(req.body);
   const playlist = req.body;
-  // console.log(PlaylistDB);
-  // PlaylistDB.create(playlist)
-  //   .then(() => {
-  //     PlaylistDB.find({})
-  //       .then((data) => {
-  //         console.log(data);
-  //       });
-  //   });
-  // console.log(req.headers.user);
   const user = req.headers.user;
   PlaylistDB.find({user: user})
     .then((data) => {
@@ -86,35 +59,6 @@ app.get('/getFriendsPlaylist', (req, res) => {
       res.status(200).send(data);
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

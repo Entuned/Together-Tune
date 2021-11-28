@@ -11,8 +11,8 @@ const jwt = require('jsonwebtoken');
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
 const client_id = 'd8884bef1dc74d43b35d94c52871aeb3'; // Your client id
 const client_secret = 'e505c271aca54bf78fb5d8770d19cd8f'; // Your secret
-// const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
-const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
+const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
+// const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
 
 const bodyParser = require('body-parser');
 
@@ -120,7 +120,7 @@ app.get('/refresh_token', function(req, res) {
 // get all of user's playlist
 // I: access token O: JSON
 app.get('/playlist', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me/playlists',
     method: 'GET',
@@ -144,7 +144,7 @@ app.get('/playlist', authorization, (req, res) => {
 // get a specific playlist
 // I: access token and playlist id O: json
 app.get('/playlist/:playlistID', authorization, (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const playlistID = req.params.playlistID;
   const options = {
     url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
@@ -168,7 +168,7 @@ app.get('/playlist/:playlistID', authorization, (req, res)=> {
 });
 
 app.get('/me', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me',
     method: 'GET',
@@ -188,11 +188,11 @@ app.get('/me', authorization, (req, res) => {
 });
 
 // get uesr info
-app.get('/userInfo', function(req, res) {
-  const accessToken = req.headers.accesstoken;
+app.get('/userInfo', authorization, function(req, res) {
+  // const accessToken = req.headers.accesstoken;
   // console.log(req);
   // console.log(req);
-
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me',
     method: 'GET',
@@ -215,7 +215,7 @@ app.get('/userInfo', function(req, res) {
 });
 
 app.get('/devices', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   // const accessToken = req.headers.accesstoken;
   console.log('this is the accesstoken ', accessToken);
   const options = {
@@ -234,7 +234,7 @@ app.get('/devices', authorization, (req, res) => {
       console.log(response.data, 'device');
       res.status(200).json(response.data);
     }).catch((err) => 
-    res.sendStatus(500));
+      res.sendStatus(500));
 });
 
 
@@ -243,7 +243,7 @@ app.get('/devices', authorization, (req, res) => {
 // get a specific playlist
 // I: access token and playlist id O: json
 app.put('/play', (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const reqBody = req.body;
   const options = {
     url: 'https://api.spotify.com/v1/me/player/play',
@@ -261,12 +261,12 @@ app.put('/play', (req, res)=> {
       res.sendStatus(200);
     })
     .catch((err) => {
-      console.error(err);
+      console.error('PUT ERR', err);
     });
 });
 
 app.put('/pause', (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me/player/pause',
     method: 'PUT',
@@ -284,9 +284,6 @@ app.put('/pause', (req, res)=> {
       console.error(err);
     });
 });
-
-
-
 
 
 module.exports = {
