@@ -65,6 +65,18 @@ class ChatRoom extends React.Component {
     this.setState({
       friendText: '',
     });
+
+    axios({
+      method: 'GET',
+      url: '/getFriendsPlaylist',
+      headers: {
+        'accessToken': this.props.token,
+        user: 'issayastewo'
+      },
+    })
+      .then(({data}) => {
+        console.log(data);
+      });
   }
 
   addFriend(newFriend) {
@@ -95,10 +107,12 @@ class ChatRoom extends React.Component {
   
   postMessages(message) {
     // console.log('mess', message);
+    // console.log('friend', this.state.friend);
     const newMessage = {
       userName: this.state.profile.display_name,
       message: message.text,
-      accessTokenKey: ''
+      accessTokenKey: '',
+      sentTo: !!this.state.friend ? this.state.friend : 'anon'
     };
     // console.log('nes message', newMessage);
     // console.log(newMessage);
@@ -160,7 +174,7 @@ class ChatRoom extends React.Component {
               { /* console.log('invalid id'); */ }
             } else {
               return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}
-                friend={this.state.friend}
+                friend={this.state.friend} sentTo={message.sentTo}
               />;
             }
           })}
