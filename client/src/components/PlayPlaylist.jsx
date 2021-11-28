@@ -11,7 +11,7 @@ class PlayPlaylist extends React.Component {
     // console.log(this.props.playlist);
     // const playListReady = !!this.props.
     if (!!this.props.playlist) {
-      console.log(this.props);
+      // console.log(this.props);
       return <div>
         <img
           src={this.props.playlist.images[0].url}
