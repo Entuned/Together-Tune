@@ -28,7 +28,7 @@ const authorization = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, 'tunes');
-    console.log('REAALTOKEN', data);
+    // console.log('REAALTOKEN', data);
     return next();
   } catch (err) {
     res.sendStatus(403);
@@ -36,7 +36,7 @@ const authorization = (req, res, next) => {
 };
 
 app.get('/login', (req, res) => {
-  const scope = ' user-read-private user-read-email playlist-read-private ';
+  const scope = 'user-modify-playback-state user-read-private user-read-email playlist-read-private user-read-playback-state user-modify-playback-state';
   res.redirect('https://accounts.spotify.com/authorize?' +
     qs.stringify({
       response_type: 'code',
@@ -120,7 +120,7 @@ app.get('/refresh_token', function(req, res) {
 // get all of user's playlist
 // I: access token O: JSON
 app.get('/playlist', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me/playlists',
     method: 'GET',
@@ -144,7 +144,7 @@ app.get('/playlist', authorization, (req, res) => {
 // get a specific playlist
 // I: access token and playlist id O: json
 app.get('/playlist/:playlistID', authorization, (req, res)=> {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const playlistID = req.params.playlistID;
   const options = {
     url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
@@ -168,7 +168,7 @@ app.get('/playlist/:playlistID', authorization, (req, res)=> {
 });
 
 app.get('/me', authorization, (req, res) => {
-  const accessToken = jwt.verify(req.headers.accesstoken, 'tunes');
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me',
     method: 'GET',
@@ -188,11 +188,11 @@ app.get('/me', authorization, (req, res) => {
 });
 
 // get uesr info
-app.get('/userInfo', function(req, res) {
-  const accessToken = req.headers.accesstoken;
-  console.log(req);
+app.get('/userInfo', authorization, function(req, res) {
+  // const accessToken = req.headers.accesstoken;
   // console.log(req);
-
+  // console.log(req);
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
     url: 'https://api.spotify.com/v1/me',
     method: 'GET',
@@ -213,6 +213,78 @@ app.get('/userInfo', function(req, res) {
       res.sendStatus(404);
     });
 });
+
+app.get('/devices', authorization, (req, res) => {
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
+  // const accessToken = req.headers.accesstoken;
+  console.log('this is the accesstoken ', accessToken);
+  const options = {
+    url: 'https://api.spotify.com/v1/me/player/devices',
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  };
+
+  // console.log(options);
+  axios(options)
+    .then((response) => {
+      console.log(response.data, 'device');
+      res.status(200).json(response.data);
+    }).catch((err) => 
+      res.sendStatus(500));
+});
+
+
+
+/// play a specific album
+// get a specific playlist
+// I: access token and playlist id O: json
+app.put('/play', (req, res)=> {
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
+  const reqBody = req.body;
+  const options = {
+    url: 'https://api.spotify.com/v1/me/player/play',
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    data: reqBody
+  };
+
+  axios(options)
+    .then(()=> {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error('PUT ERR', err);
+    });
+});
+
+app.put('/pause', (req, res)=> {
+  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
+  const options = {
+    url: 'https://api.spotify.com/v1/me/player/pause',
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+  };
+  axios(options)
+    .then(()=> {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 
 module.exports = {
   app,

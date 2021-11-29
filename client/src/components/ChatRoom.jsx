@@ -24,15 +24,15 @@ class ChatRoom extends React.Component {
     this.addFriend = this.addFriend.bind(this);
   }
 
-  
-  
+
+
   userProfile() {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('userProfile', data);
       this.setState({
@@ -40,9 +40,9 @@ class ChatRoom extends React.Component {
       });
     }).catch((err) => console.error('err'));
   }
-  
-  
-  
+
+
+
   waitForToken() {
     // console.log(this.props);
     if (!this.props.token) {
@@ -65,6 +65,18 @@ class ChatRoom extends React.Component {
     this.setState({
       friendText: '',
     });
+
+    axios({
+      method: 'GET',
+      url: '/getFriendsPlaylist',
+      headers: {
+        // 'accessToken': this.props.token,
+        user: 'issayastewo'
+      },
+    })
+      .then(({data}) => {
+        console.log(data);
+      });
   }
 
   addFriend(newFriend) {
@@ -86,6 +98,7 @@ class ChatRoom extends React.Component {
   
   getMessages() {
     axios.get('http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/messages')
+    // axios.get('/messages')
       .then((data) => {
         this.setState({
           messages: data.data
@@ -95,14 +108,17 @@ class ChatRoom extends React.Component {
   
   postMessages(message) {
     // console.log('mess', message);
+    // console.log('friend', this.state.friend);
     const newMessage = {
       userName: this.state.profile.display_name,
       message: message.text,
-      accessTokenKey: ''
+      accessTokenKey: '',
+      sentTo: !!this.state.friend ? this.state.friend : 'anon'
     };
     // console.log('nes message', newMessage);
     // console.log(newMessage);
     axios.post('http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/messages', newMessage)
+    // axios.post('/messages', newMessage)
       .then(() => this.getMessages())
       .catch(err => console.log(err));
   }
@@ -112,9 +128,9 @@ class ChatRoom extends React.Component {
     axios({
       method: 'GET',
       url: '/me',
-      headers: {
-        'accessToken': this.props.accessTokenKey
-      }
+      // headers: {
+      //   'accessToken': this.props.accessTokenKey
+      // }
     }).then(({data}) => {
       // console.log('chatroom', data);
       this.setState({
@@ -123,7 +139,7 @@ class ChatRoom extends React.Component {
     }).catch((err) => console.error('err'));
   }
   
-  
+   
   componentDidMount() {
     this.waitForToken();
     this.getMessages();
@@ -160,7 +176,7 @@ class ChatRoom extends React.Component {
               { /* console.log('invalid id'); */ }
             } else {
               return <SingleChat key={message._id} message={message.message} ID={message.userName} currentUser={this.state.profile.display_name}
-                friend={this.state.friend}
+                friend={this.state.friend} sentTo={message.sentTo}
               />;
             }
           })}
