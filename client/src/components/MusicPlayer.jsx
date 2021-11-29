@@ -2,15 +2,15 @@ import React from 'react';
 import axios from 'axios';
 
 class MusicPlayer extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
 
-    }
+    };
     
   }
 
-  componentDidMount(){
+  componentDidMount() {
     
   }
 
@@ -18,12 +18,12 @@ class MusicPlayer extends React.Component {
 
 
 
-  render(){
-    return(
+  render() {
+    return (
       <div className='MusicPlayer'>
         Music Player BITCH!!!
       </div>
-    )
+    );
   }
 }
 

@@ -2,7 +2,7 @@ const { app } = require('./app');
 
 const PORT = process.env.PORT || 3000;
 const { Users } = require('./database');
-const { PlaylistDB } = require('./database/playlistSchema');
+// const { PlaylistDB } = require('./database/playlistSchema');
 
 // routes go here
 app.get('/messages', (req, res) => {
@@ -36,29 +36,29 @@ app.delete('/messages:_id', (req, res) => {
 
 
 // create routes to share playlist
-app.post('/sharePlaylist', (req, res) => {
-  // console.log('hit');
-  // console.log(req.body);
-  const playlist = req.body;
-  const user = req.headers.user;
-  PlaylistDB.find({user: user})
-    .then((data) => {
-      if (!!data.length) {
-        PlaylistDB.create(playlist);
-      }
-    });
-});
+// app.post('/sharePlaylist', (req, res) => {
+//   // console.log('hit');
+//   // console.log(req.body);
+//   const playlist = req.body;
+//   const user = req.headers.user;
+//   PlaylistDB.find({user: user})
+//     .then((data) => {
+//       if (!!data.length) {
+//         PlaylistDB.create(playlist);
+//       }
+//     });
+// });
 
 
-app.get('/getFriendsPlaylist', (req, res) => {
-  // console.log('hit');
-  // console.log(req.headers);
-  const user = req.headers.user;
-  PlaylistDB.find({user: user})
-    .then((data) => {
-      res.status(200).send(data);
-    });
-});
+// app.get('/getFriendsPlaylist', (req, res) => {
+//   // console.log('hit');
+//   // console.log(req.headers);
+//   const user = req.headers.user;
+//   PlaylistDB.find({user: user})
+//     .then((data) => {
+//       res.status(200).send(data);
+//     });
+// });
 
 
 

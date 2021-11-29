@@ -3,8 +3,10 @@ import React from 'react';
 
 const SingleChat = (props) => {
   // console.log(props);
-  const currentUserBool = props.ID === props.currentUser && props.sentTo === props.friend;
-  const friendUserBool = props.ID === props.friend && props.sentTo === props.ID;
+  const currentUserBool = props.ID === props.currentUser; 
+  // && props.sentTo === props.friend;
+  const friendUserBool = props.ID === props.friend; 
+  // && props.sentTo === props.ID;
   // !!props ? console.log(props) : console.log('');
   const currentUserMessages = () => {
     if (currentUserBool) {
