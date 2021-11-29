@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
-const mongoUri = 'mongodb://ec2-13-58-37-205.us-east-2.compute.amazonaws.com/users';
+// const mongoUri = 'mongodb://ec2-13-58-37-205.us-east-2.compute.amazonaws.com/users';
+const mongoUri = 'mongodb://localhost/users';
 //hiya
 // Create a mongoose connection to out mongo database
 mongoose.connect(mongoUri, {
