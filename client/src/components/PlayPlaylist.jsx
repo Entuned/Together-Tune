@@ -5,10 +5,9 @@ import axios from 'axios';
 
 const PlayPlaylist = (props) => {
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     axios.put('/pause');
   }
-
   if (!!props.playlist) {
     // console.log(this.props);
     return <div>
@@ -18,7 +17,7 @@ const PlayPlaylist = (props) => {
         style ={{width: '250px', height: '250px', border: '5px solid black' 
         }}
       />
-      <Button variant="contained" color="secondary" onClick={handleClick}>Pause/Play</Button>
+      <Button variant="contained" color="secondary" onClick={(e) => handleClick(e)}>Pause/Play</Button>
     </div>;
   } else {
     return <div></div>;
