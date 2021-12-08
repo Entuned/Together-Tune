@@ -1,35 +1,45 @@
+import React from 'react';
 import axios from 'axios';
 import Playlists from './Playlists.jsx';
 import PlayPlaylist from './PlayPlaylist.jsx';
-import React, {useState, useEffect} from 'react';
 
-
-const AccountHooks = (props) => {
-  const [playlists, setPlaylists] = useState([]);
-  const [profile, setProfile] = useState({});
-  const [currentlyPlaying, setCurrentlyPlaying] = useState({});
- 
-  const userProfile = () => {
+class Account extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      profile: {},
+      playlists: [],
+      tracks: [],
+      currentPlaying: {}
+    };
+    this.userProfile = this.userProfile.bind(this);
+    this.getPlaylists = this.getPlaylists.bind(this);
+    this.onePlaylist = this.onePlaylist.bind(this);
+    this.playPlaylist = this.playPlaylist.bind(this);
+  }
+  userProfile() {
     axios({
       method: 'GET',
       url: '/me',
     }).then(({data}) => {
-      setProfile(data);
+      this.setState({
+        profile: data
+      });
     }).catch((err) => console.error('err'));
-  };
+  }
 
-  const getPlaylists = () =>{
-    console.log('getPlaylists');
+  getPlaylists () {
     axios({
       method: 'GET',
       url: '/playlist',
     }).then(({data}) => {
-      setPlaylists(data);
-      console.log('playlist', playlists);
+      this.setState({
+        playlists: data
+      });
       return data;
     }).then((data) => {
       // things I want to share
-      const user = profile.display_name;
+      const user = this.state.profile.display_name;
       const playlistInfo = data.map((playlist) => {
         return {
           playlistIDs: playlist.id,
@@ -52,12 +62,27 @@ const AccountHooks = (props) => {
         data: data
       });
     });
-  };
+  }
 
+  // not going to be used
+  onePlaylist(playlist) {
+    // console.log('click', playlist.id);
+    axios({
+      method: 'GET',
+      url: `/playlist/${playlist.id}`,
+    }).then(({data}) => {
+      // console.log(data);
+      this.setState({
+        tracks: data.items,
+      });
+    });
+  }
 
-  const playPlaylist = (playlist) =>{
-    console.log(playlist);
-    setCurrentlyPlaying(playlist);
+  playPlaylist(playlist) {
+    // console.log(playlist);
+    this.setState({
+      playPlaylist: playlist
+    });
     axios({
       method: 'GET',
       url: `/playlist/${playlist.id}`,
@@ -85,24 +110,23 @@ const AccountHooks = (props) => {
         });
       }
     });
-  };
+  }
 
-  // getPlaylists();
-  // userProfile();
+  componentDidMount() {
+    this.userProfile();
+    this.getPlaylists();
+  }
 
-  useEffect(() => { getPlaylists(), userProfile(); }, []);
+  render () {
+    const {profile, playlists, current, playPlaylist} = this.state;
+    return (
+      <div>
+        <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
+        <PlayPlaylist playlist={playPlaylist}/>
+        <Playlists handleClick={this.playPlaylist} playlists={playlists} />
+      </div>
+    );
+  }
+}
 
-
-
-  return (
-    <div>
-      <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
-      {console.log(currentlyPlaying)}
-      {/* <PlayPlaylist playlist={currentlyPlaying}/> */}
-      {currentlyPlaying.id ? <PlayPlaylist currentlyPlaying={currentlyPlaying}/> : null}
-      <Playlists handleClick={playPlaylist} playlists={playlists} />
-    </div>
-  );
-};
-
-export default AccountHooks;
+export default Account;
