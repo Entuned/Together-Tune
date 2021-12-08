@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import ChatRoom from './ChatRoom.jsx';
 import {Grid} from '@material-ui/core';

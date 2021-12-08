@@ -7,7 +7,8 @@ const PlayPlaylist = (props) => {
 
   const handleClick = (e) => {
     axios.put('/pause');
-  }
+  };
+  
   if (!!props.playlist) {
     // console.log(this.props);
     return <div>
@@ -22,6 +23,6 @@ const PlayPlaylist = (props) => {
   } else {
     return <div></div>;
   }
-}
+};
 
 export default PlayPlaylist;

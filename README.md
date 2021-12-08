@@ -8,3 +8,5 @@
 6. npm start in one terminal
 7. npm run build:client in another terminal
 8. open up localhost 3000
+9. Spotify must be opened on logged in users device
+10. good luck ;)
