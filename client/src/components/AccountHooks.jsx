@@ -1,29 +1,30 @@
-import React from 'react';
 import axios from 'axios';
 import Playlists from './Playlists.jsx';
 import PlayPlaylist from './PlayPlaylist.jsx';
+import React, {useState} from 'react';
+
 
 function AccountHooks(props) {
-  const [playlists, setPlaylists] = React.useState([]);
-  const [tracks, setTracks] = React.useState([]);
-  const [profile, setProfile] = React.useState({});
-  const [currentlyPlaying, setCurrentlyPlaying] = React.useState({});
+  const [playlists, setPlaylists] = useState([]);
+  const [tracks, setTracks] = useState([]);
+  const [profile, setProfile] = useState({});
+  const [currentlyPlaying, setCurrentlyPlaying] = useState({});
  
   const userProfile = () => {
     axios({
       method: 'GET',
       url: '/me',
     }).then(({data}) => {
-    setProfile({data})
+      setProfile({data});
     }).catch((err) => console.error('err'));
-  }
+  };
 
   const getPlaylists = () =>{
     axios({
       method: 'GET',
       url: '/playlist',
     }).then(({data}) => {
-    setPlaylists([data]);
+      setPlaylists([data]);
       return data;
     }).then((data) => {
       // things I want to share
@@ -50,7 +51,7 @@ function AccountHooks(props) {
         data: data
       });
     });
-  }
+  };
 
   // not going to be used
   const onePlaylist = (playlist) => {
@@ -62,13 +63,11 @@ function AccountHooks(props) {
       // console.log(data);
       setTracks([data]);
     });
-  }
+  };
 
-  playPlaylist(playlist) {
+  const playPlaylist = (playlist) =>{
     // console.log(playlist);
-    this.setState({
-      playPlaylist: playlist
-    });
+    setCurrentlyPlaying({playlist});
     axios({
       method: 'GET',
       url: `/playlist/${playlist.id}`,
@@ -96,23 +95,20 @@ function AccountHooks(props) {
         });
       }
     });
-  }
+  };
 
-  componentDidMount() {
-    this.userProfile();
-    this.getPlaylists();
-  }
+  getPlaylists();
+  userProfile();
 
-  render () {
-    const {profile, playlists, current, playPlaylist} = this.state;
-    return (
-      <div>
-        <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
-        <PlayPlaylist playlist={playPlaylist}/>
-        <Playlists handleClick={this.playPlaylist} playlists={playlists} />
-      </div>
-    );
-  }
+
+
+  return (
+    <div>
+      <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
+      <PlayPlaylist playlist={currentlyPlaying}/>
+      <Playlists handleClick={playPlaylist} playlists={playlists} />
+    </div>
+  );
 }
 
-export default Account;
+export default AccountHooks;
