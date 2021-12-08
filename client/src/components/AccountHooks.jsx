@@ -1,12 +1,11 @@
 import axios from 'axios';
 import Playlists from './Playlists.jsx';
 import PlayPlaylist from './PlayPlaylist.jsx';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 
-function AccountHooks(props) {
+const AccountHooks = (props) => {
   const [playlists, setPlaylists] = useState([]);
-  const [tracks, setTracks] = useState([]);
   const [profile, setProfile] = useState({});
   const [currentlyPlaying, setCurrentlyPlaying] = useState({});
  
@@ -15,16 +14,18 @@ function AccountHooks(props) {
       method: 'GET',
       url: '/me',
     }).then(({data}) => {
-      setProfile({data});
+      setProfile(data);
     }).catch((err) => console.error('err'));
   };
 
   const getPlaylists = () =>{
+    console.log('getPlaylists');
     axios({
       method: 'GET',
       url: '/playlist',
     }).then(({data}) => {
-      setPlaylists([data]);
+      setPlaylists(data);
+      console.log('playlist', playlists);
       return data;
     }).then((data) => {
       // things I want to share
@@ -53,21 +54,10 @@ function AccountHooks(props) {
     });
   };
 
-  // not going to be used
-  const onePlaylist = (playlist) => {
-    // console.log('click', playlist.id);
-    axios({
-      method: 'GET',
-      url: `/playlist/${playlist.id}`,
-    }).then(({data}) => {
-      // console.log(data);
-      setTracks([data]);
-    });
-  };
 
   const playPlaylist = (playlist) =>{
-    // console.log(playlist);
-    setCurrentlyPlaying({playlist});
+    console.log(playlist);
+    setCurrentlyPlaying(playlist);
     axios({
       method: 'GET',
       url: `/playlist/${playlist.id}`,
@@ -97,18 +87,22 @@ function AccountHooks(props) {
     });
   };
 
-  getPlaylists();
-  userProfile();
+  // getPlaylists();
+  // userProfile();
+
+  useEffect(() => { getPlaylists(), userProfile(); }, []);
 
 
 
   return (
     <div>
       <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
-      <PlayPlaylist playlist={currentlyPlaying}/>
+      {console.log(currentlyPlaying)}
+      {/* <PlayPlaylist playlist={currentlyPlaying}/> */}
+      {currentlyPlaying.id ? <PlayPlaylist currentlyPlaying={currentlyPlaying}/> : null}
       <Playlists handleClick={playPlaylist} playlists={playlists} />
     </div>
   );
-}
+};
 
 export default AccountHooks;

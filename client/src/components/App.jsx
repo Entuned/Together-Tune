@@ -6,6 +6,7 @@ import Login from './Login.jsx';
 import Logout from './Logout.jsx';
 import Account from './Account.jsx';
 import { Button } from '@material-ui/core';
+import AccountHooks from './AccountHooks.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class App extends React.Component {
           {accessTokenKey ? (
             <div>
               <Button variant="contained" color="secondary"><Logout/></Button>
-              <Account/>
+              <AccountHooks/>
               <Grid
                 container
                 spacing={0}
