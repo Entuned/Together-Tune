@@ -41,6 +41,21 @@ class ChatRoom extends React.Component {
     }).catch((err) => console.error('err'));
   }
 
+  // userProfile() {
+  //   // console.log(this.props);
+  //   axios({
+  //     method: 'GET',
+  //     url: '/me',
+  //     // headers: {
+  //     //   'accessToken': this.props.accessTokenKey
+  //     // }
+  //   }).then(({data}) => {
+  //     // console.log('chatroom', data);
+  //     this.setState({
+  //       profile: data
+  //     });
+  //   }).catch((err) => console.error('err'));
+  // }
 
 
   waitForToken() {
@@ -123,21 +138,6 @@ class ChatRoom extends React.Component {
       .catch(err => console.log(err));
   }
   
-  userProfile() {
-    // console.log(this.props);
-    axios({
-      method: 'GET',
-      url: '/me',
-      // headers: {
-      //   'accessToken': this.props.accessTokenKey
-      // }
-    }).then(({data}) => {
-      // console.log('chatroom', data);
-      this.setState({
-        profile: data
-      });
-    }).catch((err) => console.error('err'));
-  }
   
    
   componentDidMount() {
@@ -196,7 +196,6 @@ class ChatRoom extends React.Component {
             </form>
           </div>
         </div>
-
       </div>
     );
   }
