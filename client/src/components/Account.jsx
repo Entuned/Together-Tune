@@ -64,7 +64,7 @@ const Account = (props) => {
 
   return (
     <div>
-      <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
+      <h4 style={{fontStyle: 'italic'}}>Active UserID: {profile.display_name}</h4>
       {currentlyPlaying.id ? <PlayPlaylist currentlyPlaying={currentlyPlaying}/> : null}
       <Playlists handleClick={playPlaylist} playlists={playlists} />
     </div>

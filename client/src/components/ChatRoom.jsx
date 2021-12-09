@@ -71,7 +71,7 @@ const ChatRoom = () => {
       <div className='addFriend'>
         <div className="formClass">
           <form onSubmit={e => e.preventDefault()}>
-            <TextField fullWidth variant="outlined" label="Friend"
+            <TextField fullWidth variant="outlined" label="Friend's UserID"
               value={friendText}
               onChange={(e) =>
                 setFriendText(e.target.value)
