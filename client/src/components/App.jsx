@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ChatRoom from './ChatRoom.jsx';
-import ChatRoomHooks from './ChatRoomHooks.jsx';
 import {Grid} from '@material-ui/core';
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
@@ -37,7 +36,7 @@ const App = () => {
               direction="column"
               alignItems="center"
               style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
-              <ChatRoomHooks/>
+              <ChatRoom/>
             </Grid>
           </div>
         ) : (
