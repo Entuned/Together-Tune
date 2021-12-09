@@ -1,6 +1,5 @@
 .DS_Store
 node_modules
 client/dist/bundle.js
-# config/auth.js
-# .env test for server
+config/auth.js
 .vscode

@@ -8,13 +8,13 @@ const qs = require('qs');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+
 const CLIENT_PATH = path.resolve(__dirname, '../client/dist');
 const client_id = process.env.clientID; // Your client id
 const client_secret = process.env.clientSecret; // Your secret
 // const redirect_uri = 'http://ec2-13-58-37-205.us-east-2.compute.amazonaws.com:3000/callback'; // Your redirect uri
 const redirect_uri = 'http://localhost:3000/callback'; // Your redirect uri
-
-const bodyParser = require('body-parser');
 
 app.use(express.static(CLIENT_PATH));
 app.use(cors({ credentials: true }));
@@ -28,6 +28,7 @@ const authorization = (req, res, next) => {
   }
   try {
     const data = jwt.verify(token, 'tunes');
+    // ONLY PLACE IN APP TO SEE THE ACTUAL TOKEN THAT MAKES SPOTIFY CALLS
     // console.log('REAALTOKEN', data);
     return next();
   } catch (err) {
@@ -167,6 +168,7 @@ app.get('/playlist/:playlistID', authorization, (req, res)=> {
     });
 });
 
+// get user account information
 app.get('/me', authorization, (req, res) => {
   const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   const options = {
@@ -187,33 +189,8 @@ app.get('/me', authorization, (req, res) => {
     });
 });
 
-// get uesr info
-app.get('/userInfo', authorization, function(req, res) {
-  // const accessToken = req.headers.accesstoken;
-  // console.log(req);
-  // console.log(req);
-  const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
-  const options = {
-    url: 'https://api.spotify.com/v1/me',
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    },
-  };
-
-  axios(options)
-    .then(response => {
-      // console.log(response.data.tracks);
-      // console.log(response.data);
-      res.status(200).json(response.data);
-    })
-    .catch((err) => {
-      res.sendStatus(404);
-    });
-});
-
+// get's all of users's devices that use spotify
+// not currently in use
 app.get('/devices', authorization, (req, res) => {
   const accessToken = jwt.verify(req.cookies.access_token, 'tunes');
   // const accessToken = req.headers.accesstoken;
@@ -228,7 +205,6 @@ app.get('/devices', authorization, (req, res) => {
     },
   };
 
-  // console.log(options);
   axios(options)
     .then((response) => {
       console.log(response.data, 'device');
@@ -255,7 +231,7 @@ app.put('/play', (req, res)=> {
     },
     data: reqBody
   };
-
+  console.log(reqBody);
   axios(options)
     .then(()=> {
       res.sendStatus(200);

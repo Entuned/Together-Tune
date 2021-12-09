@@ -18,14 +18,25 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <Grid
         container
         spacing={0}
         direction="column"
         alignItems="center"
         style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
-        <h1>Listen to music and chat!</h1>
+        <h1
+          style ={{margin: 'auto'}}
+        >
+          <img 
+            src={'https://static1.cbrimages.com/wordpress/wp-content/uploads/2021/10/Tsubaki-And-Kousei.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5'}
+            alt="new"
+            style={{width: '600', height: '250px', border: '2px solid white', margin: 'auto'}}
+          />
+        </h1>
+        <div
+          style={{fontSize: '50px', fontWeight: 'bold', fontStyle: 'italic'}}
+        >Listen to music and chat!</div>
         {accessTokenKey ? (
           <div>
             <Button variant="contained" color="secondary"><Logout/></Button>
@@ -36,7 +47,7 @@ const App = () => {
               direction="column"
               alignItems="center"
               style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
-              <ChatRoom accessTokenKey={accessTokenKey}/>
+              <ChatRoom/>
             </Grid>
           </div>
         ) : (

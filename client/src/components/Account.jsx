@@ -19,44 +19,17 @@ const Account = (props) => {
   };
 
   const getPlaylists = () =>{
-    console.log('getPlaylists');
     axios({
       method: 'GET',
       url: '/playlist',
     }).then(({data}) => {
       setPlaylists(data);
-      console.log('playlist', playlists);
       return data;
-    }).then((data) => {
-      // things I want to share
-      const user = profile.display_name;
-      const playlistInfo = data.map((playlist) => {
-        return {
-          playlistIDs: playlist.id,
-          images: playlist.images[0].url,
-          title: playlist.name
-        };
-      });
-      const sharePlaylist = {
-        user: user,
-        playlistInfo, playlistInfo
-      };
-      return sharePlaylist;
-    }).then((data) => {
-      axios({
-        method: 'POST',
-        url: '/sharePlaylist',
-        headers: {
-          'user': data.user
-        },
-        data: data
-      });
     });
   };
 
 
   const playPlaylist = (playlist) =>{
-    console.log(playlist);
     setCurrentlyPlaying(playlist);
     axios({
       method: 'GET',
@@ -87,18 +60,11 @@ const Account = (props) => {
     });
   };
 
-  // getPlaylists();
-  // userProfile();
-
   useEffect(() => { getPlaylists(), userProfile(); }, []);
-
-
 
   return (
     <div>
-      <h4 style={{fontStyle: 'italic'}}>User: {profile.display_name}</h4>
-      {console.log(currentlyPlaying)}
-      {/* <PlayPlaylist playlist={currentlyPlaying}/> */}
+      <h4 style={{fontStyle: 'italic'}}>Active UserID: {profile.display_name}</h4>
       {currentlyPlaying.id ? <PlayPlaylist currentlyPlaying={currentlyPlaying}/> : null}
       <Playlists handleClick={playPlaylist} playlists={playlists} />
     </div>

@@ -2,11 +2,33 @@
 // what files are they going to need to add .env .config etc
 1. Create a spotify developer account
 2. Create a spotify applicaiton through spotify
-3. Add users to users and access 
-4. add client ID and client secret to XXX folders
-5. npm install inside of Together-Tune directory
-6. npm start in one terminal
-7. npm run build:client in another terminal
-8. open up localhost 3000
-9. Spotify must be opened on logged in users device
-10. good luck ;)
+4. Add users to users and access 
+5. Create an .env file
+6. add client ID and client secret to XXX folders
+7. npm install inside of Together-Tune directory
+8. npm start in one terminal
+9. npm run build:client in another terminal
+10. start mongo db locally or external server instance
+11. open up localhost 3000
+12. Spotify must be opened on logged in users device
+13. BUG Spotify sometimes must be currently playing for the first pause to work
+14. good luck ;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+![This is an image](/readme-images/pic1.png)
+![This is an image](/readme-images/pic2.png)
+
+
