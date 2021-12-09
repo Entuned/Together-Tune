@@ -6,12 +6,11 @@ import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import axios from 'axios';
 import { render } from 'react-dom';
 
-const ChatRoomHooks = (props) => {
+const ChatRoomHooks = () => {
   // state variables
-  const [text, setText] = useState('');
+  const [textField, setTextField] = useState('');
   const [friendText, setFriendText] = useState('');
   const [messages, setMessages] = useState([]);
-  const [diplayName, setDisplayName] = useState('');
   const [profile, setProfile] = useState('');
   const [friend, setFriend] = useState('');
 
@@ -25,50 +24,31 @@ const ChatRoomHooks = (props) => {
     }).catch((err) => console.error('err'));
   };
 
-  const waitForToken = () => {
-    // console.log(this.props);
-    if (!props.token) {
-      setTimeout(() => {
-        waitForToken();
-      }, 1000);
-    } else {
-      userProfile(props.token);
-    }
-  };
-
   const handleClickFriend = (e) => {
     e.preventDefault();
-    const friendTextCheck = friendText;
-    if (!friendTextCheck) { return; }
-    addFriend(friendText);
+    if (!friendText) { return; }
+    setFriend(friendText);
     setFriendText('');
   };
-  
-  const addFriend = (newFriend) => {
-    setFriend(newFriend);
-  };
 
-
-  const handleClick = (e) => {
+  const handleClickMessage = (e) => {
     e.preventDefault();
-    console.log(text);
-    if (!text) { return; }
-    console.log('eeeee', text);
+    if (!textField) { return; }
     postMessages();
-    setText('');
+    setTextField('');
   };
 
   const getMessages = () => {
     axios.get('/messages')
-      .then((data) => {
-        setMessages(data.data);
+      .then(({data}) => {
+        setMessages(data);
       });
   };
 
   const postMessages = () => {
     const newMessage = {
       userName: profile.display_name,
-      message: text,
+      message: textField,
       sentTo: !!friend ? friend : 'anon'
     };
     axios.post('/messages', newMessage)
@@ -78,32 +58,12 @@ const ChatRoomHooks = (props) => {
 
 
   // on load functions
-  // useEffect(() => {    
-  //   waitForToken();
-  // }, []);
-  // useEffect(() => {    
-  //   getMessages();
-  // }, []);
-  // useEffect(() => {    
-  //   userProfile();
-  // }, []);
-  // useEffect(() => {    
-  //   setInterval(() => {
-  //     getMessages();
-  //   }, 1000);
-  // }, []);
-  // useEffect(() => {    
-  //   userProfile();
-  // }, []);
-
   useEffect(() => {    
-    waitForToken();
-    getMessages();
     userProfile();
+    getMessages();
     setInterval(() => {
       getMessages();
     }, 1000);
-    userProfile();
   }, []);
 
 
@@ -140,13 +100,13 @@ const ChatRoomHooks = (props) => {
         <div className="formClass">
           <form onSubmit={e => e.preventDefault()}>
             <TextField variant="outlined" label="Message" fullWidth = "fullWidth" color="success"
-              value={text}
+              value={textField}
               onChange={(e) =>
-                setText(e.target.value)
+                setTextField(e.target.value)
               }
               style={{backgroundColor: 'white'}}
             />
-            <Button startIcon={<ArrowUpwardIcon/>} variant="contained" color="secondary" onClick={(e) => handleClick(e)}>Send Message</Button>
+            <Button startIcon={<ArrowUpwardIcon/>} variant="contained" color="secondary" onClick={(e) => handleClickMessage(e)}>Send Message</Button>
           </form>
         </div>
       </div>

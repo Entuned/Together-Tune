@@ -37,7 +37,7 @@ const App = () => {
               direction="column"
               alignItems="center"
               style={{ minHeight: '200vh', backgroundColor: '#f1f3f8' }}>
-              <ChatRoomHooks accessTokenKey={accessTokenKey}/>
+              <ChatRoomHooks/>
             </Grid>
           </div>
         ) : (
