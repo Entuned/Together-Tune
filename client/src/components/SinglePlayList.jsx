@@ -15,6 +15,6 @@ const SinglePlayList = (props) => {
   } else {
     return <div/>;
   }
-}
+};
 
 export default SinglePlayList;

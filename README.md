@@ -13,3 +13,22 @@
 12. Spotify must be opened on logged in users device
 13. BUG Spotify sometimes must be currently playing for the first pause to work
 14. good luck ;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+![This is an image](/readme-images/pic1.png)
+![This is an image](/readme-images/pic2.png)
+
+
