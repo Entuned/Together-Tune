@@ -9,7 +9,7 @@ Tune makes a call to spotify (with our user temporary acccess token which we hav
 to request the listener's playlist. 
 * If a user wants to play one of the playlist presented on the screen a number of conditions must be met. The listener must have a spotify premium account, the application must be currently open and running signed in device. With these 
 conditions met Together Tunes is able to send a PUT request to ask Spotify to start a playback state of a user's device with a specific song.
-* The other feature a user is presnted with is an chatroom. Messages are saved to individual users. To start a chat a user must enter their friend's spotify username which allows Together Tune to pull messages in the database with the 
+* The other feature a user is presented with is an chatroom. Messages are saved to individual users. To start a chat a user must enter their friend's spotify username which allows Together Tune to pull messages in the database with the 
 requested username.
 
 **Getting Started & Development Setup**
