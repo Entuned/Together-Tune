@@ -35,5 +35,7 @@ Example .env file
 * clientSecret = (Your Spotify ClientSecret also provided by Spotify)
 
 
+
+
 ![This is an image](/readme-images/pic1.png)
 ![This is an image](/readme-images/pic2.png)
