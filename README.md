@@ -18,12 +18,6 @@ requested username.
 *  Create a spotify application through spotify
 *  Must have a Spotify Premium Account for authentication and a player
 *  Add users to users and access in spotify developer page. P.S (This should be done in Spotify developer page when you have an application created with spotify).
-* #### .env
-    - A clientID and clientSecret from spotify authentication
-    - host (Deployment Host/ Deployment IP Address)
-    - PORT
-    - clientSecret
-    - clientID
 *  add client ID and client secret to XXX folders
 *  npm install inside of Together-Tune directory
 *  npm start to run the server
