@@ -1,5 +1,5 @@
 # Together-Tune
-## Welcome to Togeth Tune an interactive music website, that lets you talk to friends and listen to music at the same time!
+## Welcome to Together Tune an interactive music website, that lets you talk to friends and listen to music at the same time!
 
 **Understanding the code base**
 * The first thing a listner will encounter on Togegher Tune is a prompt to sign-in with Spotify. We use Spotify's 
